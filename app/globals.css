@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --color-brand: #f0603f;
+
+  --color-canvas: oklch(0.985 0 0);
+  --color-surface: oklch(1 0 0);
+  --color-surface-alt: oklch(0.967 0 0);
+  --color-sunken: oklch(0.945 0 0);
+  --color-ink: oklch(0.178 0.002 286);
+
+  --color-fg: oklch(0.16 0 0);
+  --color-fg-secondary: oklch(0.44 0 0);
+  --color-fg-muted: oklch(0.556 0 0);
+
+  --color-line: oklch(0.922 0 0);
+  --color-line-strong: oklch(0.86 0 0);
+
+  --color-action: oklch(0.53 0.18 264);
+  --color-action-hover: oklch(0.47 0.18 264);
+  --color-action-fg: oklch(0.98 0.01 254);
+
+  --color-ok: oklch(0.58 0.15 150);
+  --color-ok-bg: oklch(0.72 0.16 150 / 0.14);
+  --color-ok-border: oklch(0.72 0.16 150 / 0.32);
+
+  --color-warn: oklch(0.58 0.14 75);
+  --color-warn-bg: oklch(0.82 0.16 75 / 0.18);
+  --color-warn-border: oklch(0.82 0.16 75 / 0.35);
+
+  --color-danger: oklch(0.58 0.2 25);
+  --color-danger-bg: oklch(0.66 0.19 25 / 0.12);
+  --color-danger-border: oklch(0.66 0.19 25 / 0.3);
+
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.06);
+  --shadow-md: 0 4px 12px oklch(0 0 0 / 0.08);
+  --shadow-lg: 0 30px 80px oklch(0 0 0 / 0.14);
+  --shadow-action: 0 8px 24px oklch(0.53 0.18 264 / 0.28);
+  --shadow-action-lg: 0 14px 34px oklch(0.53 0.18 264 / 0.34);
+
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-marquee: marquee 38s linear infinite;
+  --animate-pulse-dot: pulse-dot 2.4s ease-in-out infinite;
+  --animate-sheen: sheen 4.4s var(--ease-brand) infinite;
+  --animate-word-in: word-in 0.7s var(--ease-brand) both;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes pulse-dot {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.45;
+      transform: scale(0.82);
+    }
+  }
+
+  @keyframes sheen {
+    0% {
+      transform: translateX(-120%);
+    }
+    60%,
+    100% {
+      transform: translateX(220%);
+    }
+  }
+
+  @keyframes word-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.4em);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-canvas);
+    color: var(--color-fg);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* The design uses a custom chevron, so the native disclosure marker is removed. */
+  summary {
+    list-style: none;
+    cursor: pointer;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
