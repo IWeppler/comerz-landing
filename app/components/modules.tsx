@@ -1,58 +1,19 @@
-import Image from "next/image";
 import { Reveal } from "./reveal";
 import { Tabs, type Tab } from "./tabs";
+import { ZoomImage } from "./zoom-image";
 
-const COPY = "flex flex-col gap-3.25 p-8 md:p-11";
+const COPY = "flex flex-col gap-2.5 px-5 py-6 md:gap-3.25 md:p-11";
 const EYEBROW = "font-mono text-xs text-fg-muted";
 const TITLE =
-  "m-0 text-[28px] leading-[1.12] font-semibold tracking-[-0.028em]";
+  "m-0 text-[22px] leading-[1.15] font-semibold tracking-[-0.028em] md:text-[28px] md:leading-[1.12]";
 const BODY = "m-0 text-[15px] leading-[1.6] text-fg-secondary";
-const CHIPS = "mt-2.5 flex flex-wrap gap-2";
+const CHIPS = "mt-1.5 flex flex-wrap gap-2 md:mt-2.5";
 const CHIP =
   "inline-flex h-6.75 items-center rounded-full border border-line bg-surface-alt px-3 text-xs font-medium text-fg-secondary";
 const SHOT =
-  "flex h-full items-center overflow-hidden border-line bg-sunken py-10 md:border-l";
+  "flex h-full items-center overflow-hidden border-t border-line bg-sunken py-5 md:border-t-0 md:border-l md:py-10";
 const MOCK =
-  "flex h-full items-center justify-center border-line bg-sunken p-8 md:border-l md:p-12";
-
-const INVENTORY_COLS = "grid grid-cols-[1fr_64px_92px_88px] gap-3.5 px-4.5";
-
-const ROWS = [
-  {
-    name: "Vestido Lisa",
-    stock: 12,
-    price: "$ 39.000",
-    state: "Activo",
-    tone: "ok",
-  },
-  {
-    name: "Vestido Frunce",
-    stock: 3,
-    price: "$ 25.000",
-    state: "Bajo",
-    tone: "warn",
-  },
-  {
-    name: "Vestido Paula",
-    stock: 0,
-    price: "$ 32.000",
-    state: "Sin stock",
-    tone: "danger",
-  },
-  {
-    name: "Vestido Gabriela",
-    stock: 27,
-    price: "$ 39.000",
-    state: "Activo",
-    tone: "ok",
-  },
-] as const;
-
-const TONES = {
-  ok: "bg-ok-bg border-ok-border text-ok",
-  warn: "bg-warn-bg border-warn-border text-warn",
-  danger: "bg-danger-bg border-danger-border text-danger",
-} as const;
+  "flex h-full items-center justify-center border-t border-line bg-sunken p-5 md:border-t-0 md:border-l md:p-12";
 
 const TABS: Tab[] = [
   {
@@ -75,11 +36,11 @@ const TABS: Tab[] = [
           </div>
         </div>
         <div className={SHOT}>
-          <Image
-            src="/assets/vendercomerz2.png"
+          <ZoomImage
+            src="/assets/vender2.png"
             alt="Pantalla de venta con grilla de productos y el ticket a la derecha"
-            width={1915}
-            height={979}
+            width={1280}
+            height={924}
             className="block h-auto w-full"
           />
         </div>
@@ -109,11 +70,11 @@ const TABS: Tab[] = [
           </div>
         </div>
         <div className={SHOT}>
-          <Image
+          <ZoomImage
             src="/assets/dashboard2.png"
             alt="Panel con los indicadores de la semana"
-            width={1919}
-            height={978}
+            width={1556}
+            height={771}
             className="block h-auto w-full"
           />
         </div>
@@ -208,11 +169,11 @@ const TABS: Tab[] = [
           </div>
         </div>
         <div className={SHOT}>
-          <Image
+          <ZoomImage
             src="/assets/table-stock.png"
-            alt="Panel con los indicadores de la semana"
-            width={1919}
-            height={978}
+            alt="Tabla de inventario con stock, precios y estado de cada producto"
+            width={1565}
+            height={879}
             className="block h-auto w-full"
           />
         </div>
@@ -223,9 +184,9 @@ const TABS: Tab[] = [
 
 export function Modules() {
   return (
-    <section id="modulos" className="mx-auto max-w-[1200px] px-5 pt-30 md:px-8">
-      <Reveal className="mb-9">
-        <div className="flex flex-wrap items-end justify-between gap-10">
+    <section id="modulos" className="mx-auto max-w-[1200px] px-5 pt-20 md:px-8 md:pt-30">
+      <Reveal className="mb-6 md:mb-9">
+        <div className="flex flex-wrap items-end justify-between gap-5 md:gap-10">
           <div className="max-w-[54ch]">
             <span className="text-xs font-semibold tracking-[0.09em] text-brand uppercase">
               Qué hace
@@ -235,8 +196,8 @@ export function Modules() {
             </h2>
           </div>
           <p className="m-0 max-w-[34ch] text-base leading-[1.6] text-fg-secondary">
-            Sin módulos que se compran aparte. Todo viene junto desde el primer
-            día.
+            El sistema de gestión y el punto de venta vienen juntos: nada de
+            módulos que se compran aparte. Todo desde el primer día.
           </p>
         </div>
       </Reveal>

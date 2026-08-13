@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { cn, formatAmount } from "@/lib/cn";
+import { AUTH_URL } from "@/lib/links";
 import { prefersReducedMotion } from "./reveal";
 import { HoverCard, HoverLink, SlidingPill } from "./hover";
 
@@ -113,13 +114,29 @@ function Check() {
 
 export function Pricing() {
   const [cycle, setCycle] = useState<Cycle>("m");
+  const track = useRef<HTMLDivElement>(null);
+
+  // Start the mobile slider on the featured plan without moving the page.
+  useEffect(() => {
+    const el = track.current;
+    if (!el || el.scrollWidth <= el.clientWidth) return;
+
+    const card = el.children[
+      PLANS.findIndex((p) => p.featured)
+    ] as HTMLElement | undefined;
+    if (!card) return;
+
+    const offset =
+      card.getBoundingClientRect().left - el.getBoundingClientRect().left;
+    el.scrollLeft += offset - (el.clientWidth - card.clientWidth) / 2;
+  }, []);
 
   const note =
     cycle === "s" ? "Pagando el semestre por adelantado" : "Facturado mes a mes";
 
   return (
-    <section id="precios" className="mx-auto max-w-[1200px] px-5 pt-30 md:px-8">
-      <div className="mb-12 flex flex-col items-center gap-3.5 text-center">
+    <section id="precios" className="mx-auto max-w-[1200px] px-5 pt-20 md:px-8 md:pt-30">
+      <div className="mb-8 flex flex-col items-center gap-3.5 text-center md:mb-12">
         <span className="text-xs font-semibold tracking-[0.09em] text-brand uppercase">
           Precio
         </span>
@@ -166,13 +183,18 @@ export function Pricing() {
         </div>
       </div>
 
-      <div className="mx-auto grid max-w-[1080px] items-start gap-5 lg:grid-cols-3">
+      {/* Phones get a snap slider centred on the featured plan, with the
+        neighbours peeking in so it reads as three cards, not one. */}
+      <div
+        ref={track}
+        className="-mx-5 flex snap-x snap-mandatory items-start gap-3 overflow-x-auto px-5 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] lg:mx-auto lg:grid lg:max-w-[1080px] lg:snap-none lg:grid-cols-3 lg:gap-5 lg:overflow-visible lg:px-0 lg:pb-0 [&::-webkit-scrollbar]:hidden"
+      >
         {PLANS.map((plan) => (
           <HoverCard
             key={plan.name}
             lift={-6}
             className={cn(
-              "overflow-hidden rounded-[20px] bg-surface transition-[box-shadow,border-color] duration-350 ease-brand",
+              "w-[84%] shrink-0 snap-center overflow-hidden rounded-[20px] bg-surface transition-[box-shadow,border-color] duration-350 ease-brand lg:w-auto lg:shrink",
               plan.featured
                 ? "relative border-2 border-action shadow-[0_20px_50px_oklch(0.53_0.18_264/0.16)] hover:shadow-[0_28px_64px_oklch(0.53_0.18_264/0.22)]"
                 : "border border-line hover:border-line-strong hover:shadow-md",
@@ -223,7 +245,7 @@ export function Pricing() {
 
             <div className="px-6.5 pb-6.5">
               <HoverLink
-                href="#top"
+                href={AUTH_URL}
                 lift={-1}
                 press={0.985}
                 className={cn(

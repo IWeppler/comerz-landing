@@ -72,8 +72,8 @@ export function HeroVisual() {
           <Image
             src="/assets/panel.png"
             alt="Panel de Comerz con ingresos, unidades, ticket promedio y tendencia de la semana"
-            width={1919}
-            height={978}
+            width={1920}
+            height={1080}
             priority
             className="block h-auto w-full"
           />

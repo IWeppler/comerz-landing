@@ -16,8 +16,8 @@ const CATALOG_ITEMS = [
 
 export function Extras() {
   return (
-    <section className="mx-auto max-w-[1200px] px-5 pt-30 md:px-8">
-      <Reveal className="mb-11 max-w-[54ch]">
+    <section className="mx-auto max-w-[1200px] px-5 pt-20 md:px-8 md:pt-30">
+      <Reveal className="mb-7 max-w-[54ch] md:mb-11">
         <span className="text-xs font-semibold tracking-[0.09em] text-brand uppercase">
           Además
         </span>
@@ -80,7 +80,7 @@ export function Extras() {
 
         <Reveal delay={240}>
           <HoverCard lift={-3} className={CARD}>
-            <span className={STAT}>.xlsx</span>
+            <span className={STAT}>.xlsx o .csv</span>
             <h3 className={TITLE}>Traés tu Excel</h3>
             <p className={BODY}>
               Plantilla de productos y de clientes. Subís el archivo y queda todo cargado.
@@ -90,7 +90,7 @@ export function Extras() {
 
         <Reveal delay={320}>
           <HoverCard lift={-3} className={CARD}>
-            <span className={STAT}>2 min</span>
+            <span className={STAT}>5 min</span>
             <h3 className={TITLE}>Arrancás hoy</h3>
             <p className={BODY}>
               Cargás lo que más vendés y ya registrás la primera venta. El resto lo sumás

@@ -1,3 +1,4 @@
+import { AUTH_URL } from "@/lib/links";
 import { Reveal } from "./reveal";
 import { HeroVisual } from "./hero-visual";
 import { HoverLink } from "./hover";
@@ -24,13 +25,16 @@ export function Hero() {
           <HoverLink
             href="#modulos"
             lift={-1}
-            className="group inline-flex h-9 items-center gap-2.5 rounded-full border border-line bg-surface px-2 text-[13px] font-medium text-fg-secondary no-underline shadow-sm transition-[box-shadow,border-color] duration-250 ease-brand hover:border-line-strong hover:shadow-md"
+            className="group inline-flex h-9 max-w-full items-center gap-2 rounded-full border border-line bg-surface px-2 text-[12.5px] font-medium whitespace-nowrap text-fg-secondary no-underline shadow-sm transition-[box-shadow,border-color] duration-250 ease-brand hover:border-line-strong hover:shadow-md md:gap-2.5 md:text-[13px]"
           >
-            <span className="inline-flex h-6 items-center rounded-full bg-[oklch(0.7_0.17_35/0.14)] px-2.5 text-xs font-semibold text-[oklch(0.52_0.17_35)]">
+            <span className="inline-flex h-6 shrink-0 items-center rounded-full bg-[oklch(0.7_0.17_35/0.14)] px-2.5 text-xs font-semibold text-[oklch(0.52_0.17_35)]">
               Nuevo
             </span>
-            <span className="text-left">Catálogo online para compartir por WhatsApp</span>
-            <span className="pr-2 text-fg-muted transition-transform duration-250 ease-brand group-hover:translate-x-0.5">
+            <span className="truncate">
+              Catálogo online
+              <span className="hidden sm:inline"> para compartir</span> por WhatsApp
+            </span>
+            <span className="shrink-0 pr-2 text-fg-muted transition-transform duration-250 ease-brand group-hover:translate-x-0.5">
               →
             </span>
           </HoverLink>
@@ -51,15 +55,16 @@ export function Hero() {
 
         <Reveal>
           <p className="m-0 max-w-[56ch] text-lg leading-[1.55] text-pretty text-fg-secondary md:text-xl">
-            Dejá el cuaderno y las diez planillas de excel. Vendés, cobrás, controlás el stock y
-            sabés cuánto ganaste — todo desde la misma pantalla, actualizado al instante.
+            Dejá el cuaderno y las diez planillas de excel. Un sistema de gestión para
+            comercios donde vendés, cobrás, controlás el stock y sabés cuánto ganaste —
+            todo en la misma pantalla, actualizado al instante.
           </p>
         </Reveal>
 
         <Reveal className="mt-1.5">
           <div className="flex flex-wrap items-center justify-center gap-3">
             <HoverLink
-              href="#precios"
+              href={AUTH_URL}
               lift={-3}
               className="relative inline-flex h-13.5 items-center gap-2.5 overflow-hidden rounded-[13px] bg-action px-7 text-base font-medium text-action-fg no-underline shadow-action transition-[box-shadow,background-color] duration-280 ease-brand hover:bg-action-hover hover:shadow-action-lg"
             >
@@ -69,11 +74,15 @@ export function Hero() {
             <HoverLink
               href="#modulos"
               lift={-3}
-              className="group inline-flex h-13.5 items-center gap-2.5 rounded-[13px] border border-line-strong bg-surface px-6 text-base font-medium whitespace-nowrap text-fg no-underline transition-[background-color,border-color] duration-280 ease-brand hover:bg-surface-alt"
+              className="group inline-flex h-13.5 items-center gap-2.5 rounded-[13px] border border-line bg-surface px-6 text-base font-medium whitespace-nowrap text-fg no-underline shadow-sm transition-[background-color,border-color,box-shadow] duration-280 ease-brand hover:border-line-strong hover:bg-surface-alt hover:shadow-md"
             >
-              <span className="inline-flex size-5.5 items-center justify-center rounded-full bg-sunken text-[9px] text-fg-secondary transition-colors duration-280 ease-brand group-hover:bg-action group-hover:text-action-fg">
-                ▶
-              </span>
+              <svg
+                aria-hidden
+                viewBox="0 0 16 16"
+                className="size-3.5 fill-fg-muted transition-colors duration-280 ease-brand group-hover:fill-action"
+              >
+                <path d="M4 3.3a.8.8 0 0 1 1.22-.68l7.1 4.7a.8.8 0 0 1 0 1.36l-7.1 4.7A.8.8 0 0 1 4 12.7V3.3Z" />
+              </svg>
               Ver cómo funciona
             </HoverLink>
           </div>

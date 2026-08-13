@@ -9,8 +9,8 @@ const VISUAL =
 
 export function Why() {
   return (
-    <section id="por-que" className="mx-auto max-w-[1200px] px-5 pt-30 md:px-8">
-      <Reveal className="mb-13 max-w-[54ch]">
+    <section id="por-que" className="mx-auto max-w-[1200px] px-5 pt-20 md:px-8 md:pt-30">
+      <Reveal className="mb-7 max-w-[54ch] md:mb-13">
         <span className="text-xs font-semibold tracking-[0.09em] text-brand uppercase">
           Por qué cambiarte
         </span>
@@ -19,7 +19,9 @@ export function Why() {
         </h2>
       </Reveal>
 
-      <div className="grid gap-5 md:grid-cols-3">
+      {/* Mismo criterio que precios: en el celular las tres cards se recorren de
+        costado en vez de apilarse en una columna de tres pantallas de alto. */}
+      <div className="-mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0 [&::-webkit-scrollbar]:hidden [&>*]:w-[86%] [&>*]:shrink-0 [&>*]:snap-center md:[&>*]:w-auto md:[&>*]:shrink">
         <Reveal>
           <HoverCard className={CARD}>
             <div className={`${VISUAL} flex flex-col justify-between`}>

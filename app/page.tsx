@@ -11,7 +11,9 @@ import { Footer } from "./components/footer";
 
 export default function Home() {
   return (
-    <div className="relative flex-1 overflow-x-hidden bg-canvas text-fg">
+    // `clip` en lugar de `hidden`: recorta el desborde de los glows igual, pero
+    // sin convertir al contenedor en scroller, que rompe el `sticky` de Tabs.
+    <div className="relative flex-1 overflow-x-clip bg-canvas text-fg">
       <Nav />
       <main>
         <Hero />

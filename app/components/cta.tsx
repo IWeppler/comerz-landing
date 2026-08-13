@@ -1,3 +1,4 @@
+import { AUTH_URL } from "@/lib/links";
 import { Reveal } from "./reveal";
 import { ParallaxPhone } from "./parallax";
 import { HoverLink } from "./hover";
@@ -24,7 +25,7 @@ export function Cta() {
             </p>
             <div className="mt-1.5 flex flex-wrap items-center gap-3">
               <HoverLink
-                href="#precios"
+                href={AUTH_URL}
                 lift={-3}
                 className="inline-flex h-14 items-center rounded-[13px] bg-action px-7.5 text-base font-medium text-action-fg no-underline shadow-[0_10px_34px_oklch(0.53_0.18_264/0.4)] transition-[box-shadow,background-color] duration-280 ease-brand hover:bg-action-hover hover:shadow-[0_18px_46px_oklch(0.53_0.18_264/0.5)]"
               >

@@ -1,7 +1,10 @@
 import Image from "next/image";
+import { AUTH_URL } from "@/lib/links";
 import { HoverLink } from "./hover";
 
-const COLUMNS = [
+type FooterLink = { label: string; href: string; external?: boolean };
+
+const COLUMNS: { title: string; links: FooterLink[] }[] = [
   {
     title: "Producto",
     links: [
@@ -16,23 +19,28 @@ const COLUMNS = [
     title: "Ayuda",
     links: [
       { label: "Preguntas frecuentes", href: "#faq" },
-      { label: "Importar desde Excel", href: "#top" },
-      { label: "Escribinos por WhatsApp", href: "https://wa.me/5491154702118" },
+      { label: "Importar desde Excel", href: "#faq" },
+      {
+        label: "Escribinos por WhatsApp",
+        href: "https://wa.me/5491154702118",
+        external: true,
+      },
     ],
   },
   {
-    title: "Legal",
+    title: "Empezar",
     links: [
-      { label: "Términos y condiciones", href: "#top" },
-      { label: "Política de privacidad", href: "#top" },
+      { label: "Probar 14 días gratis", href: AUTH_URL, external: true },
+      { label: "Ingresar a mi cuenta", href: AUTH_URL, external: true },
+      { label: "Ver los planes", href: "#precios" },
     ],
   },
 ];
 
 export function Footer() {
   return (
-    <footer className="mt-30 border-t border-line bg-surface">
-      <div className="mx-auto grid max-w-[1200px] gap-10 px-5 pt-15 pb-8 md:px-8 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
+    <footer className="mt-20 border-t border-line bg-surface md:mt-30">
+      <div className="mx-auto grid max-w-[1200px] gap-8 px-5 pt-11 pb-8 sm:grid-cols-2 md:px-8 md:gap-10 md:pt-15 lg:grid-cols-[1.6fr_1fr_1fr_1fr]">
         <div className="flex flex-col gap-3.5">
           <div className="flex items-center gap-2.5">
             <Image
@@ -62,6 +70,9 @@ export function Footer() {
                 lift={0}
                 shift={3}
                 press={1}
+                {...(link.external
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
                 className="w-fit text-sm text-fg-secondary no-underline transition-colors hover:text-fg"
               >
                 {link.label}
@@ -71,11 +82,21 @@ export function Footer() {
         ))}
       </div>
 
-      <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-5 border-t border-line px-5 pt-6 pb-10 md:px-8">
+      <div className="mx-auto flex max-w-[1200px] flex-wrap items-center justify-between gap-x-5 gap-y-3 border-t border-line px-5 pt-6 pb-10 md:px-8">
         <span className="text-[13px] text-fg-muted">
           © 2026 Comerz. Todos los derechos reservados.
         </span>
-        <span className="text-[13px] text-fg-muted">Hecho en Argentina</span>
+        <span className="text-[13px] text-fg-muted">
+          Hecho en Argentina · Powered by{" "}
+          <a
+            href="https://www.ignacioweppler.com"
+            target="_blank"
+            rel="noopener"
+            className="text-fg-secondary underline decoration-line-strong underline-offset-[3px] transition-colors hover:text-fg hover:decoration-fg-muted"
+          >
+            Ignacio Weppler
+          </a>
+        </span>
       </div>
     </footer>
   );

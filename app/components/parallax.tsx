@@ -30,7 +30,7 @@ export function ParallaxPhone({ rise = 160 }: { rise?: number }) {
   return (
     <div
       ref={ref}
-      className="relative min-h-[320px] self-end overflow-hidden md:min-h-[380px] lg:min-h-[470px] lg:overflow-visible"
+      className="relative min-h-[360px] self-end overflow-hidden md:min-h-[400px] lg:min-h-[470px] lg:overflow-visible"
     >
       <motion.div
         style={reduce ? undefined : { y }}
@@ -42,8 +42,8 @@ export function ParallaxPhone({ rise = 160 }: { rise?: number }) {
           width={900}
           height={1829}
           priority
-          sizes="(max-width: 1024px) 60vw, 340px"
-          className="block h-auto w-[52%] max-w-[340px] drop-shadow-[0_30px_60px_oklch(0_0_0/0.55)] sm:w-[38%] lg:w-[92%]"
+          sizes="(max-width: 640px) 75vw, (max-width: 1024px) 48vw, 340px"
+          className="block h-auto w-[74%] max-w-[340px] drop-shadow-[0_30px_60px_oklch(0_0_0/0.55)] sm:w-[48%] lg:w-[92%]"
         />
       </motion.div>
     </div>
