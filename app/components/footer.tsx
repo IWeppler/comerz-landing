@@ -92,7 +92,7 @@ export function Footer() {
             href="https://www.ignacioweppler.com"
             target="_blank"
             rel="noopener"
-            className="text-fg-secondary underline decoration-line-strong underline-offset-[3px] transition-colors hover:text-fg hover:decoration-fg-muted"
+            className="text-fg-secondary transition-colors hover:text-fg hover:decoration-fg-muted"
           >
             Ignacio Weppler
           </a>

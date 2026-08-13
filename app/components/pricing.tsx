@@ -68,14 +68,20 @@ const PLANS: Plan[] = [
 function Price({ plan, cycle }: { plan: Plan; cycle: Cycle }) {
   const target = cycle === "s" ? plan.semester : plan.monthly;
   const [display, setDisplay] = useState(target);
+  const [prevTarget, setPrevTarget] = useState(target);
   const from = useRef(target);
 
+  if (target !== prevTarget && prefersReducedMotion()) {
+    setPrevTarget(target);
+    setDisplay(target);
+  }
+
   useEffect(() => {
-    if (prefersReducedMotion()) {
-      from.current = target;
-      setDisplay(target);
-      return;
-    }
+    from.current = display;
+  });
+
+  useEffect(() => {
+    if (prefersReducedMotion()) return;
 
     const start = from.current;
     if (start === target) return;
@@ -113,7 +119,7 @@ function Check() {
 }
 
 export function Pricing() {
-  const [cycle, setCycle] = useState<Cycle>("m");
+  const [cycle, setCycle] = useState<Cycle>("s");
   const track = useRef<HTMLDivElement>(null);
 
   // Start the mobile slider on the featured plan without moving the page.
@@ -121,9 +127,9 @@ export function Pricing() {
     const el = track.current;
     if (!el || el.scrollWidth <= el.clientWidth) return;
 
-    const card = el.children[
-      PLANS.findIndex((p) => p.featured)
-    ] as HTMLElement | undefined;
+    const card = el.children[PLANS.findIndex((p) => p.featured)] as
+      | HTMLElement
+      | undefined;
     if (!card) return;
 
     const offset =
@@ -132,23 +138,26 @@ export function Pricing() {
   }, []);
 
   const note =
-    cycle === "s" ? "Pagando el semestre por adelantado" : "Facturado mes a mes";
+    cycle === "s"
+      ? "Pagando el semestre por adelantado"
+      : "Facturado mes a mes";
 
   return (
-    <section id="precios" className="mx-auto max-w-[1200px] px-5 pt-20 md:px-8 md:pt-30">
+    <section
+      id="precios"
+      className="mx-auto max-w-[1200px] px-5 pt-20 md:px-8 md:pt-30"
+    >
       <div className="mb-8 flex flex-col items-center gap-3.5 text-center md:mb-12">
         <span className="text-xs font-semibold tracking-[0.09em] text-brand uppercase">
-          Precio
+          Planes para cada etapa de tu negocio
         </span>
         <h2 className="m-0 max-w-[20ch] text-[clamp(2rem,5vw,3rem)] leading-[1.06] font-semibold tracking-[-0.035em] text-balance">
-          Elegí el plan que le queda a tu comercio
+          Todo lo que necesitás para llevar tu comercio
         </h2>
         <p className="m-0 max-w-[54ch] text-[17px] leading-[1.55] text-pretty text-fg-secondary">
-          Sin módulos que se compran aparte y sin permanencia. Pagando el semestre entero
-          te ahorrás un 20%, y arrancás con 14 días gratis para probarlo con tu mercadería
-          de verdad.
+          Empezá gratis durante 14 días y elegí el plan que mejor se adapte a tu
+          negocio.
         </p>
-
         <div className="mt-2.5 flex flex-wrap items-center justify-center gap-3.5">
           <div className="flex gap-1 rounded-xl border border-line bg-surface-alt p-1">
             {(
@@ -177,10 +186,11 @@ export function Pricing() {
               </button>
             ))}
           </div>
-          <span className="inline-flex h-6.5 items-center rounded-full border border-ok-border bg-ok-bg px-2.75 text-xs font-medium whitespace-nowrap text-ok">
-            Ahorrás 20%
-          </span>
         </div>
+        <p className="inline-flex items-center text-xs font-medium text-fg-secondary">
+          Pagando 6 meses por adelantado,
+          <span className="ml-1 text-action font-semibold">ahorras 20%</span>
+        </p>
       </div>
 
       {/* Phones get a snap slider centred on the featured plan, with the
@@ -233,7 +243,10 @@ export function Pricing() {
               ))}
               {plan.excluded && (
                 <div className="flex items-start gap-2.5">
-                  <span aria-hidden className="text-sm leading-[1.5] text-fg-muted">
+                  <span
+                    aria-hidden
+                    className="text-sm leading-[1.5] text-fg-muted"
+                  >
                     —
                   </span>
                   <span className="text-sm leading-[1.5] text-fg-muted">

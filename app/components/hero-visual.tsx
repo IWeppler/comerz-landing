@@ -70,7 +70,7 @@ export function HeroVisual() {
             </span>
           </div>
           <Image
-            src="/assets/panel.png"
+            src="/assets/dashboard3.png"
             alt="Panel de Comerz con ingresos, unidades, ticket promedio y tendencia de la semana"
             width={1920}
             height={1080}
