@@ -29,15 +29,14 @@ export function soloDigitos(valor: string) {
 }
 
 /**
- * El mensaje que la persona termina enviando. Va con el número que cargó
- * además del que use para escribir, que pueden no ser el mismo.
+ * El mensaje que la persona termina enviando. El número no hace falta pedirlo:
+ * llega solo, porque escribe desde su propio WhatsApp.
  */
 export function mensajeInscripcion({
   nombre,
   rubro,
 }: {
   nombre: string;
-  whatsapp: string;
   rubro: string;
 }) {
   return [

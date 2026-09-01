@@ -19,21 +19,16 @@ const CAMPO_ERROR = "border-danger-border focus:border-danger";
 const ETIQUETA = "text-[13px] font-medium text-fg-secondary";
 const AYUDA = "text-[12.5px] text-danger";
 
-type Campo = "nombre" | "whatsapp" | "rubro";
+type Campo = "nombre" | "rubro";
 type Errores = Partial<Record<Campo, string>>;
 
 /** El destinatario del wa.me, sacado del mismo link que usa el botón de abajo. */
 const DESTINO = soloDigitos(CHARLA_WHATSAPP_URL);
 
-function validar(nombre: string, whatsapp: string, rubro: string) {
+function validar(nombre: string, rubro: string) {
   const errores: Errores = {};
 
   if (nombre.length < 2) errores.nombre = "Escribí tu nombre.";
-
-  const digitos = soloDigitos(whatsapp);
-  if (digitos.length < 8 || digitos.length > 15) {
-    errores.whatsapp = "Revisá el número, con característica y sin el 0.";
-  }
 
   if (!RUBROS.includes(rubro as (typeof RUBROS)[number])) {
     errores.rubro = "Elegí un rubro.";
@@ -51,14 +46,13 @@ export function Inscripcion() {
 
     const datos = new FormData(e.currentTarget);
     const nombre = String(datos.get("nombre") ?? "").trim();
-    const whatsapp = String(datos.get("whatsapp") ?? "").trim();
     const rubro = String(datos.get("rubro") ?? "").trim();
 
-    const fallas = validar(nombre, whatsapp, rubro);
+    const fallas = validar(nombre, rubro);
     setErrores(fallas);
     if (Object.keys(fallas).length > 0) return;
 
-    const mensaje = mensajeInscripcion({ nombre, whatsapp, rubro });
+    const mensaje = mensajeInscripcion({ nombre, rubro });
     const url = `https://wa.me/${DESTINO}?text=${encodeURIComponent(mensaje)}`;
 
     // Abrirlo adentro del submit es lo que evita que el navegador lo tome por
@@ -153,28 +147,6 @@ export function Inscripcion() {
           </span>
         )}
       </div>
-
-      {/* <div className="flex flex-col gap-1.5">
-        <label htmlFor="whatsapp" className={ETIQUETA}>
-          WhatsApp
-        </label>
-        <input
-          id="whatsapp"
-          name="whatsapp"
-          type="tel"
-          inputMode="tel"
-          autoComplete="tel"
-          placeholder="3491 50-3094"
-          aria-invalid={errores.whatsapp ? true : undefined}
-          aria-describedby={errores.whatsapp ? "error-whatsapp" : undefined}
-          className={cn(CAMPO, errores.whatsapp && CAMPO_ERROR)}
-        />
-        {errores.whatsapp && (
-          <span id="error-whatsapp" className={AYUDA}>
-            {errores.whatsapp}
-          </span>
-        )}
-      </div> */}
 
       <div className="flex flex-col gap-1.5">
         <label htmlFor="rubro" className={ETIQUETA}>
