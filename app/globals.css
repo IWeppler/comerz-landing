@@ -1,4 +1,7 @@
 @import "tailwindcss";
+/* Las utilidades `animate-in` / `data-[state=...]` que usan los componentes de
+   shadcn: en Tailwind v4 vienen de acá, no de un plugin del config. */
+@import "tw-animate-css";
 
 @theme {
   --font-sans: var(--font-geist-sans), system-ui, sans-serif;

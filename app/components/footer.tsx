@@ -8,18 +8,18 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
   {
     title: "Producto",
     links: [
-      { label: "Punto de venta", href: "#modulos" },
-      { label: "Inventario", href: "#modulos" },
-      { label: "Caja y arqueo", href: "#modulos" },
-      { label: "Catálogo online", href: "#modulos" },
-      { label: "Precios", href: "#precios" },
+      { label: "Punto de venta", href: "/#modulos" },
+      { label: "Inventario", href: "/#modulos" },
+      { label: "Caja y arqueo", href: "/#modulos" },
+      { label: "Catálogo online", href: "/#modulos" },
+      { label: "Precios", href: "/#precios" },
     ],
   },
   {
     title: "Ayuda",
     links: [
-      { label: "Preguntas frecuentes", href: "#faq" },
-      { label: "Importar desde Excel", href: "#faq" },
+      { label: "Preguntas frecuentes", href: "/#faq" },
+      { label: "Importar desde Excel", href: "/#faq" },
       {
         label: "Escribinos por WhatsApp",
         href: "https://wa.me/5491154702118",
@@ -32,7 +32,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
     links: [
       { label: "Probar 14 días gratis", href: AUTH_URL, external: true },
       { label: "Ingresar a mi cuenta", href: AUTH_URL, external: true },
-      { label: "Ver los planes", href: "#precios" },
+      { label: "Ver los planes", href: "/#precios" },
     ],
   },
 ];

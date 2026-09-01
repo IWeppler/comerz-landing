@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
@@ -8,10 +9,10 @@ import { AUTH_URL } from "@/lib/links";
 import { HoverLink, SlidingPill, SPRING_SOFT } from "./hover";
 
 const LINKS = [
-  { href: "#modulos", label: "Qué hace" },
-  { href: "#por-que", label: "Por qué cambiarte" },
-  { href: "#precios", label: "Precio" },
-  { href: "#faq", label: "Preguntas" },
+  { href: "/#modulos", label: "Qué hace" },
+  { href: "/#por-que", label: "Por qué cambiarte" },
+  { href: "/#precios", label: "Precio" },
+  { href: "/#faq", label: "Preguntas" },
 ];
 
 export function Nav() {
@@ -72,8 +73,8 @@ export function Nav() {
           animate={{ height: scrolled ? 60 : 72 }}
           transition={reduce ? { duration: 0 } : SPRING_SOFT}
         >
-          <a
-            href="#top"
+          <Link
+            href="/#top"
             className="flex items-center gap-2.5 text-fg no-underline"
           >
             <Image
@@ -87,7 +88,7 @@ export function Nav() {
             <span className="text-[17px] font-semibold tracking-[-0.02em]">
               Comerz
             </span>
-          </a>
+          </Link>
 
           {/* One pill follows the pointer across the row instead of each link
             lighting up on its own. */}
