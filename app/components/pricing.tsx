@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { cn, formatAmount } from "@/lib/cn";
+import { useState } from "react";
+import { Check, Minus } from "lucide-react";
+import { cn } from "@/lib/cn";
 import { AUTH_URL } from "@/lib/links";
-import { prefersReducedMotion } from "./reveal";
-import { HoverCard, HoverLink, SlidingPill } from "./hover";
+import { Amount } from "./metrics";
+import { HoverLink, SlidingPill } from "./hover";
+import { Reveal } from "./reveal";
 
 type Cycle = "m" | "s";
 
@@ -64,102 +66,30 @@ const PLANS: Plan[] = [
   },
 ];
 
-/** Tweens the displayed price whenever the billing cycle changes. */
-function Price({ plan, cycle }: { plan: Plan; cycle: Cycle }) {
-  const target = cycle === "s" ? plan.semester : plan.monthly;
-  const [display, setDisplay] = useState(target);
-  const [prevTarget, setPrevTarget] = useState(target);
-  const from = useRef(target);
-
-  if (target !== prevTarget && prefersReducedMotion()) {
-    setPrevTarget(target);
-    setDisplay(target);
-  }
-
-  useEffect(() => {
-    from.current = display;
-  });
-
-  useEffect(() => {
-    if (prefersReducedMotion()) return;
-
-    const start = from.current;
-    if (start === target) return;
-
-    const duration = 420;
-    const t0 = performance.now();
-    let raf = 0;
-
-    const step = (now: number) => {
-      const p = Math.min(1, (now - t0) / duration);
-      const eased = 1 - Math.pow(1 - p, 3);
-      const next = Math.round(start + (target - start) * eased);
-      setDisplay(next);
-      from.current = next;
-      if (p < 1) raf = requestAnimationFrame(step);
-    };
-    raf = requestAnimationFrame(step);
-
-    return () => cancelAnimationFrame(raf);
-  }, [target]);
-
-  return (
-    <span className="font-mono text-[40px] font-medium tracking-[-0.035em]">
-      $ {formatAmount(display)}
-    </span>
-  );
-}
-
-function Check() {
-  return (
-    <span aria-hidden className="text-sm leading-[1.5] text-ok">
-      ✓
-    </span>
-  );
-}
-
 export function Pricing() {
   const [cycle, setCycle] = useState<Cycle>("s");
-  const track = useRef<HTMLDivElement>(null);
-
-  // Start the mobile slider on the featured plan without moving the page.
-  useEffect(() => {
-    const el = track.current;
-    if (!el || el.scrollWidth <= el.clientWidth) return;
-
-    const card = el.children[PLANS.findIndex((p) => p.featured)] as
-      | HTMLElement
-      | undefined;
-    if (!card) return;
-
-    const offset =
-      card.getBoundingClientRect().left - el.getBoundingClientRect().left;
-    el.scrollLeft += offset - (el.clientWidth - card.clientWidth) / 2;
-  }, []);
 
   const note =
-    cycle === "s"
-      ? "Pagando el semestre por adelantado"
-      : "Facturado mes a mes";
+    cycle === "s" ? "Pagando el semestre por adelantado" : "Facturado mes a mes";
 
   return (
-    <section
-      id="precios"
-      className="mx-auto max-w-[1200px] px-5 pt-20 md:px-8 md:pt-30"
-    >
-      <div className="mb-8 flex flex-col items-center gap-3.5 text-center md:mb-12">
-        <span className="text-xs font-semibold tracking-[0.09em] text-brand uppercase">
-          Planes para cada etapa de tu negocio
-        </span>
-        <h2 className="m-0 max-w-[20ch] text-[clamp(2rem,5vw,3rem)] leading-[1.06] font-semibold tracking-[-0.035em] text-balance">
-          Todo lo que necesitás para llevar tu comercio
-        </h2>
-        <p className="m-0 max-w-[54ch] text-[17px] leading-[1.55] text-pretty text-fg-secondary">
-          Empezá gratis durante 14 días y elegí el plan que mejor se adapte a tu
-          negocio.
-        </p>
-        <div className="mt-2.5 flex flex-wrap items-center justify-center gap-3.5">
-          <div className="flex gap-1 rounded-xl border border-line bg-surface-alt p-1">
+    <section id="precios" className="mx-auto max-w-[1200px] px-5 pt-24 md:px-8 md:pt-36">
+      <Reveal className="mb-10 flex flex-col gap-8 md:mb-12 lg:flex-row lg:items-end lg:justify-between">
+        <div className="flex max-w-[600px] flex-col gap-4">
+          <span className="text-sm font-semibold text-(--color-accent)">
+            Planes para cada etapa de tu negocio
+          </span>
+          <h2 className="m-0 font-display text-[clamp(2.25rem,5vw,3.75rem)] leading-[1.02] font-semibold tracking-[-0.035em] text-balance">
+            Todo lo que necesitás para llevar tu comercio
+          </h2>
+          <p className="m-0 text-lg leading-[1.55] text-pretty text-fg-secondary">
+            Empezá gratis durante 14 días y elegí el plan que mejor se adapte a tu
+            negocio.
+          </p>
+        </div>
+
+        <div className="flex flex-col items-start gap-2.5 lg:items-end">
+          <div className="flex gap-1 rounded-[10px] border border-line bg-surface-alt p-1">
             {(
               [
                 ["m", "Mensual"],
@@ -172,108 +102,109 @@ export function Pricing() {
                 aria-pressed={cycle === id}
                 onClick={() => setCycle(id)}
                 className={cn(
-                  "relative cursor-pointer rounded-[9px] px-4.5 py-2.25 font-sans text-sm font-medium transition-colors duration-250 ease-brand",
+                  "relative cursor-pointer rounded-[7px] border-0 bg-transparent px-4.5 py-2.25 font-sans text-sm font-medium transition-colors duration-250 ease-brand",
                   cycle === id ? "text-fg" : "text-fg-secondary hover:text-fg",
                 )}
               >
                 {cycle === id && (
                   <SlidingPill
                     group="cycle-active"
-                    className="absolute inset-0 rounded-[9px] border border-line bg-surface shadow-sm"
+                    className="absolute inset-0 rounded-[7px] border border-line bg-surface shadow-sm"
                   />
                 )}
                 <span className="relative">{label}</span>
               </button>
             ))}
           </div>
+          <p className="m-0 text-sm text-fg-secondary">
+            Pagando 6 meses por adelantado,{" "}
+            <span className="font-semibold text-(--color-accent)">ahorrás 20%</span>
+          </p>
         </div>
-        <p className="inline-flex items-center text-xs font-medium text-fg-secondary">
-          Pagando 6 meses por adelantado,
-          <span className="ml-1 text-action font-semibold">ahorras 20%</span>
-        </p>
-      </div>
+      </Reveal>
 
-      {/* Phones get a snap slider centred on the featured plan, with the
-        neighbours peeking in so it reads as three cards, not one. */}
-      <div
-        ref={track}
-        className="-mx-5 flex snap-x snap-mandatory items-start gap-3 overflow-x-auto px-5 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] lg:mx-auto lg:grid lg:max-w-[1080px] lg:snap-none lg:grid-cols-3 lg:gap-5 lg:overflow-visible lg:px-0 lg:pb-0 [&::-webkit-scrollbar]:hidden"
-      >
-        {PLANS.map((plan) => (
-          <HoverCard
-            key={plan.name}
-            lift={-6}
-            className={cn(
-              "w-[84%] shrink-0 snap-center overflow-hidden rounded-[20px] bg-surface transition-[box-shadow,border-color] duration-350 ease-brand lg:w-auto lg:shrink",
-              plan.featured
-                ? "relative border-2 border-action shadow-[0_20px_50px_oklch(0.53_0.18_264/0.16)] hover:shadow-[0_28px_64px_oklch(0.53_0.18_264/0.22)]"
-                : "border border-line hover:border-line-strong hover:shadow-md",
-            )}
-          >
-            <div className="flex flex-col gap-1.75 border-b border-line px-6.5 pt-7 pb-5.5">
-              <div className="flex items-center justify-between gap-2.5">
-                <span className="text-base font-semibold">{plan.name}</span>
+      {/* One comparison panel instead of three floating cards: the columns
+        share a baseline, so plans read side by side. Phones stack them. */}
+      <Reveal>
+        <div className="grid overflow-hidden rounded-2xl border border-line bg-surface lg:grid-cols-3">
+          {PLANS.map((plan, i) => (
+            <div
+              key={plan.name}
+              className={cn(
+                "relative flex flex-col p-7 md:p-9",
+                i > 0 && "border-t border-line lg:border-t-0 lg:border-l",
+                plan.featured && "bg-(--color-brand-soft)",
+              )}
+            >
+              {plan.featured && (
+                <span className="absolute inset-x-0 top-0 h-1 bg-action" aria-hidden />
+              )}
+
+              <div className="flex items-baseline justify-between gap-3">
+                <h3 className="m-0 font-display text-2xl font-semibold tracking-[-0.02em]">
+                  {plan.name}
+                </h3>
                 {plan.featured && (
-                  <span className="inline-flex h-6 items-center rounded-full bg-action px-2.5 text-xs font-medium whitespace-nowrap text-action-fg">
-                    El más elegido
-                  </span>
+                  <span className="text-sm font-semibold text-(--color-accent)">El más elegido</span>
                 )}
               </div>
-              <div className="mt-1.5 flex items-baseline gap-1.75">
-                <Price plan={plan} cycle={cycle} />
-                <span className="text-sm text-fg-muted">/ mes</span>
-              </div>
-              <span className="min-h-[17px] text-xs text-fg-muted">{note}</span>
-              <p className="mt-1.5 mb-0 text-sm leading-[1.55] text-fg-secondary">
+              <p className="mt-2 mb-0 min-h-[3.1em] text-[15px] leading-[1.55] text-fg-secondary">
                 {plan.blurb}
               </p>
-            </div>
 
-            <div className="flex flex-col gap-2.5 px-6.5 py-5.5">
-              {plan.features.map((feature, i) => (
-                <div key={feature} className="flex items-start gap-2.5">
-                  <Check />
-                  <span className="text-sm leading-[1.5] text-fg-secondary">
-                    {feature}
-                    {plan.note && i === 3 && (
-                      <span className="text-fg-muted"> {plan.note}</span>
-                    )}
-                  </span>
-                </div>
-              ))}
-              {plan.excluded && (
-                <div className="flex items-start gap-2.5">
-                  <span
-                    aria-hidden
-                    className="text-sm leading-[1.5] text-fg-muted"
-                  >
-                    —
-                  </span>
-                  <span className="text-sm leading-[1.5] text-fg-muted">
-                    {plan.excluded}
-                  </span>
-                </div>
-              )}
-            </div>
+              <div className="mt-6 flex items-baseline gap-2">
+                <Amount
+                  value={cycle === "s" ? plan.semester : plan.monthly}
+                  className="font-display text-[2.75rem] leading-none font-semibold tracking-[-0.04em] tabular-nums"
+                />
+                <span className="text-sm text-fg-muted">/ mes</span>
+              </div>
+              <span className="mt-2 text-[13px] text-fg-muted">{note}</span>
 
-            <div className="px-6.5 pb-6.5">
-              <HoverLink
-                href={AUTH_URL}
-                lift={-1}
-                press={0.985}
-                className={cn(
-                  "inline-flex h-11.5 w-full items-center justify-center rounded-xl text-[15px] font-medium no-underline transition-colors",
-                  plan.featured
-                    ? "bg-action text-action-fg hover:bg-action-hover"
-                    : "border border-line-strong bg-surface text-fg hover:bg-surface-alt",
+              <ul className="m-0 mt-7 flex list-none flex-col gap-3 p-0">
+                {plan.features.map((feature, j) => (
+                  <li key={feature} className="flex items-start gap-2.5">
+                    <Check
+                      aria-hidden
+                      strokeWidth={2}
+                      className="mt-0.5 size-4 shrink-0 text-(--color-accent)"
+                    />
+                    <span className="text-[15px] leading-[1.5]">
+                      {feature}
+                      {plan.note && j === 3 && (
+                        <span className="text-fg-muted"> {plan.note}</span>
+                      )}
+                    </span>
+                  </li>
+                ))}
+                {plan.excluded && (
+                  <li className="flex items-start gap-2.5 text-fg-muted">
+                    <Minus aria-hidden strokeWidth={2} className="mt-0.5 size-4 shrink-0" />
+                    <span className="text-[15px] leading-[1.5]">{plan.excluded}</span>
+                  </li>
                 )}
-              >
-                Probar 14 días gratis
-              </HoverLink>
+              </ul>
+
+              {/* Pushes the button to the shared bottom edge of the panel. */}
+              <div className="mt-9 flex flex-1 items-end">
+                <HoverLink
+                  href={AUTH_URL}
+                  lift={-1}
+                  press={0.985}
+                  className={cn(
+                    "inline-flex h-12 w-full items-center justify-center rounded-[10px] text-[15px] font-medium no-underline transition-colors",
+                    plan.featured
+                      ? "bg-action text-action-fg shadow-[0_8px_22px_oklch(0.56_0.19_35/0.26)] hover:bg-action-hover"
+                      : "border border-line-strong bg-surface text-fg hover:bg-surface-alt",
+                  )}
+                >
+                  Probar 14 días gratis
+                </HoverLink>
+              </div>
             </div>
-          </HoverCard>
-        ))}
-      </div>
+          ))}
+        </div>
+      </Reveal>
     </section>
   );
 }

@@ -2,7 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+} from "motion/react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
 import { AUTH_URL } from "@/lib/links";
@@ -21,12 +27,10 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const reduce = useReducedMotion();
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  // Motion already tracks the page scroll; the bar only re-renders when it
+  // crosses the threshold, not on every frame.
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 12));
 
   // Con el menú abierto no se scrollea lo de atrás, y Escape lo cierra.
   useEffect(() => {
@@ -49,16 +53,21 @@ export function Nav() {
     // flotando como un notch translúcido sobre el contenido.
     <motion.div
       className="fixed inset-x-0 top-0 z-60"
+      initial={false}
       animate={{
         paddingTop: scrolled ? 12 : 0,
         paddingInline: scrolled ? 16 : 0,
       }}
       transition={reduce ? { duration: 0 } : SPRING_SOFT}
     >
+      {/* initial={false} starts from these numbers instead of the computed
+        `max-width: none`, which Motion cannot interpolate from. */}
       <motion.div
+        initial={false}
+        style={{ maxWidth: 1200 }}
         animate={{
           maxWidth: scrolled ? 960 : 1200,
-          borderRadius: scrolled ? 20 : 0,
+          borderRadius: scrolled ? 16 : 0,
         }}
         transition={reduce ? { duration: 0 } : SPRING_SOFT}
         className={cn(
@@ -70,6 +79,7 @@ export function Nav() {
       >
         <motion.div
           className="relative z-10 flex w-full items-center gap-9"
+          initial={false}
           animate={{ height: scrolled ? 60 : 72 }}
           transition={reduce ? { duration: 0 } : SPRING_SOFT}
         >
@@ -83,9 +93,9 @@ export function Nav() {
               width={500}
               height={500}
               priority
-              className="block size-8 rounded-[9px]"
+              className="block size-8 rounded-[10px]"
             />
-            <span className="text-[17px] font-semibold tracking-[-0.02em]">
+            <span className="font-display text-lg font-semibold tracking-[-0.02em]">
               Comerz
             </span>
           </Link>
@@ -104,7 +114,7 @@ export function Nav() {
                 onFocus={() => setHovered(link.href)}
                 onBlur={() => setHovered(null)}
                 className={cn(
-                  "relative rounded-lg px-3 py-2 text-sm font-medium no-underline transition-colors duration-200",
+                  "relative rounded-[10px] px-3 py-2 text-sm font-medium no-underline transition-colors duration-200",
                   hovered === link.href ? "text-fg" : "text-fg-secondary",
                 )}
               >
@@ -113,7 +123,7 @@ export function Nav() {
                     <SlidingPill
                       fade
                       group="nav-hover"
-                      className="absolute inset-0 rounded-lg bg-surface-alt"
+                      className="absolute inset-0 rounded-[10px] bg-surface-alt"
                     />
                   )}
                 </AnimatePresence>
@@ -136,7 +146,7 @@ export function Nav() {
               lift={-1}
               className="hidden h-10 items-center rounded-[10px] bg-action px-4.5 text-sm font-medium whitespace-nowrap text-action-fg no-underline transition-colors duration-250 ease-brand hover:bg-action-hover lg:inline-flex"
             >
-              Probar 14 días
+              Probar 14 días gratis
             </HoverLink>
 
             <button
@@ -189,7 +199,7 @@ export function Nav() {
                         ? { duration: 0 }
                         : { duration: 0.28, delay: 0.05 + i * 0.045 }
                     }
-                    className="border-b border-line py-4.5 text-[22px] font-medium tracking-[-0.02em] text-fg no-underline"
+                    className="border-b border-line py-4.5 font-display text-[26px] font-semibold tracking-[-0.02em] text-fg no-underline"
                   >
                     {link.label}
                   </motion.a>
@@ -199,18 +209,18 @@ export function Nav() {
               <div className="mt-auto flex flex-col gap-2.5 pt-10">
                 <a
                   href={AUTH_URL}
-                  className="inline-flex h-13 items-center justify-center rounded-[13px] bg-action text-base font-medium text-action-fg no-underline"
+                  className="inline-flex h-13 items-center justify-center rounded-[10px] bg-action text-base font-medium text-action-fg no-underline"
                 >
                   Probar 14 días gratis
                 </a>
                 <a
                   href={AUTH_URL}
-                  className="inline-flex h-13 items-center justify-center rounded-[13px] border border-line-strong bg-surface text-base font-medium text-fg no-underline"
+                  className="inline-flex h-13 items-center justify-center rounded-[10px] border border-line-strong bg-surface text-base font-medium text-fg no-underline"
                 >
-                  Ingresar a mi cuenta
+                  Ingresar
                 </a>
                 <span className="mt-2 text-center text-[13px] text-fg-muted">
-                  14 días gratis · Sin tarjeta · Sin instalar nada
+                  Sin tarjeta y sin instalar nada
                 </span>
               </div>
             </motion.div>

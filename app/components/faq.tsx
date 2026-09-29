@@ -1,3 +1,5 @@
+import { Plus } from "lucide-react";
+import { WHATSAPP_URL } from "@/lib/links";
 import { Reveal } from "./reveal";
 
 const ITEMS = [
@@ -19,7 +21,7 @@ const ITEMS = [
   },
   {
     q: "¿Qué pasa cuando terminan los 14 días?",
-    a: "Elegís el plan y seguís donde estabas, con todo lo que cargaste. Si decidís que no, tus datos quedan disponibles para descargar y no te cobramos nada — no pedimos tarjeta para la prueba.",
+    a: "Elegís el plan y seguís donde estabas, con todo lo que cargaste. Si decidís que no, tus datos quedan disponibles para descargar y no te cobramos nada: no pedimos tarjeta para la prueba.",
   },
 ];
 
@@ -36,30 +38,44 @@ const SCHEMA = {
 
 export function Faq() {
   return (
-    <section id="faq" className="mx-auto max-w-[860px] px-5 pt-20 md:px-8 md:pt-30">
+    <section
+      id="faq"
+      className="mx-auto grid max-w-[1200px] gap-8 px-5 pt-24 md:px-8 md:pt-36 lg:grid-cols-12 lg:gap-10"
+    >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }}
       />
-      <Reveal>
-        <h2 className="mt-0 mb-7 text-center text-[clamp(1.75rem,4.5vw,2.5rem)] leading-[1.1] font-semibold tracking-[-0.035em] md:mb-10">
+      <Reveal className="flex flex-col gap-4 lg:col-span-4">
+        <h2 className="m-0 font-display text-[clamp(2rem,4vw,2.75rem)] leading-[1.05] font-semibold tracking-[-0.035em] text-balance">
           Preguntas frecuentes sobre el sistema
         </h2>
+        <p className="m-0 max-w-[34ch] text-base leading-[1.6] text-fg-secondary">
+          ¿No está la tuya?{" "}
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-(--color-accent) underline decoration-(--color-brand-line) underline-offset-4 transition-colors hover:decoration-current"
+          >
+            Escribinos por WhatsApp
+          </a>
+        </p>
       </Reveal>
 
-      <Reveal>
-        <div className="overflow-hidden rounded-[18px] border border-line bg-surface">
-          {ITEMS.map((item, i) => (
-            <details
-              key={item.q}
-              name="faq"
-              className={`group ${i < ITEMS.length - 1 ? "border-b border-line" : ""}`}
-            >
-              <summary className="flex cursor-pointer list-none items-center gap-4 px-5 py-5 text-[15px] font-medium transition-colors hover:bg-surface-alt md:px-6.5 md:py-5.75 md:text-base [&::-webkit-details-marker]:hidden">
+      <Reveal className="lg:col-span-8">
+        <div className="border-t border-line">
+          {ITEMS.map((item) => (
+            <details key={item.q} name="faq" className="group border-b border-line">
+              <summary className="flex cursor-pointer list-none items-center gap-4 py-5.5 text-base font-medium transition-colors hover:text-(--color-accent) md:py-6.5 md:text-lg [&::-webkit-details-marker]:hidden">
                 <span className="flex-1">{item.q}</span>
-                <span className="size-2.75 shrink-0 rotate-45 border-r-[1.5px] border-b-[1.5px] border-fg-muted transition-transform duration-300 ease-brand group-open:rotate-[-135deg]" />
+                <Plus
+                  aria-hidden
+                  strokeWidth={1.75}
+                  className="size-5 shrink-0 text-fg-muted transition-transform duration-300 ease-brand group-open:rotate-45"
+                />
               </summary>
-              <p className="m-0 px-5 pb-5 text-[14.5px] leading-[1.65] text-fg-secondary md:px-6.5 md:pb-6 md:text-[15px]">
+              <p className="m-0 max-w-[62ch] pb-6 text-[15px] leading-[1.7] text-fg-secondary md:pb-7 md:text-base">
                 {item.a}
               </p>
             </details>

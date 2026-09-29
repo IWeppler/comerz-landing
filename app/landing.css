@@ -1,0 +1,65 @@
+/*
+ * Landing-only look. Everything here is scoped to `.landing` (the root of the
+ * home page), so the global tokens in globals.css, and every other route that
+ * uses them, stay exactly as they are.
+ *
+ * Tailwind colour utilities read their CSS variables at use time, so
+ * redefining the variables on `.landing` restyles `bg-action`, `text-fg` and
+ * friends inside the landing only. Colours the global theme does not have are
+ * used as `text-(--color-accent)` and the like.
+ *
+ * One accent: the logo orange. `--color-action` is the deeper tone that holds
+ * white text (4.9:1) for buttons; `--color-accent` is orange used as text.
+ * Radii: controls 10px, surfaces 16px.
+ */
+.landing {
+  --color-brand-soft: oklch(0.955 0.035 42);
+  --color-brand-line: oklch(0.86 0.08 40);
+
+  --color-canvas: oklch(0.985 0.003 60);
+  --color-surface: oklch(0.997 0.002 60);
+  --color-surface-alt: oklch(0.965 0.004 60);
+  --color-sunken: oklch(0.94 0.005 60);
+
+  --color-fg: oklch(0.19 0.006 50);
+  --color-fg-secondary: oklch(0.43 0.006 50);
+  --color-fg-muted: oklch(0.54 0.006 50);
+
+  --color-line: oklch(0.915 0.005 60);
+  --color-line-strong: oklch(0.85 0.006 60);
+
+  --color-action: oklch(0.56 0.19 35);
+  --color-action-hover: oklch(0.51 0.18 35);
+  --color-action-fg: oklch(0.99 0.005 60);
+  --color-accent: oklch(0.56 0.19 35);
+
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  .landing {
+    --color-brand-soft: oklch(0.27 0.05 40);
+    --color-brand-line: oklch(0.42 0.1 40);
+
+    --color-canvas: oklch(0.17 0.004 60);
+    --color-surface: oklch(0.205 0.005 60);
+    --color-surface-alt: oklch(0.24 0.005 60);
+    --color-sunken: oklch(0.15 0.004 60);
+
+    --color-fg: oklch(0.965 0.004 60);
+    --color-fg-secondary: oklch(0.78 0.005 60);
+    --color-fg-muted: oklch(0.66 0.005 60);
+
+    --color-line: oklch(0.28 0.005 60);
+    --color-line-strong: oklch(0.36 0.006 60);
+
+    --color-action: oklch(0.58 0.19 36);
+    --color-action-hover: oklch(0.63 0.19 38);
+    --color-accent: oklch(0.74 0.15 45);
+  }
+}
+
+/* Display face for headlines and big numbers, loaded by the landing page. */
+.font-display {
+  font-family: var(--font-bricolage), var(--font-geist-sans), system-ui, sans-serif;
+}

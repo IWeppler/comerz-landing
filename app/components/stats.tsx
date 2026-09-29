@@ -5,21 +5,18 @@ const STATS = [
   {
     value: 25_000_000,
     prefix: "$ ",
-    suffix: "",
     label: "facturado con Comerz",
     hint: "Ventas registradas por los comercios en el último trimestre",
   },
   {
     value: 1200,
-    prefix: "+ ",
-    suffix: "",
+    prefix: "+",
     label: "transacciones registradas",
     hint: "Tickets emitidos entre mostrador, tablet y celular",
   },
   {
     value: 5,
     prefix: "",
-    suffix: "",
     label: "comercios activos",
     hint: "Indumentaria, kiosco, ferretería, perfumería y más",
   },
@@ -27,34 +24,30 @@ const STATS = [
 
 export function Stats() {
   return (
-    <section className="mt-20 border-y border-line bg-surface">
-      <Reveal className="mx-auto max-w-[1200px] px-5 py-11 md:px-8">
-        <span className="text-xs font-semibold tracking-[0.09em] text-fg-muted uppercase">
-          Comerz en números
-        </span>
-
-        <div className="mt-7 grid gap-8 md:grid-cols-3 md:gap-0">
-          {STATS.map((stat, i) => (
-            <div
-              key={stat.label}
-              className={
+    <section aria-label="Comerz en números" className="mt-20 border-y border-line md:mt-28">
+      <div className="mx-auto grid max-w-[1200px] divide-y divide-line px-5 md:grid-cols-[1.5fr_1fr_1fr] md:divide-x md:divide-y-0 md:px-8">
+        {STATS.map((stat, i) => (
+          <Reveal
+            key={stat.label}
+            delay={i * 80}
+            className="flex flex-col gap-2 py-8 md:px-9 md:py-12 md:first:pl-0 md:last:pr-0"
+          >
+            <Counter
+              value={stat.value}
+              prefix={stat.prefix}
+              className={`font-display leading-none font-semibold tracking-[-0.04em] tabular-nums ${
                 i === 0
-                  ? "flex flex-col gap-1.5 md:pr-9"
-                  : "flex flex-col gap-1.5 md:border-l md:border-line md:pr-9 md:pl-9"
-              }
-            >
-              <span className="flex items-baseline font-mono text-[clamp(2rem,4vw,2.75rem)] leading-none font-medium tracking-[-0.035em]">
-                <Counter value={stat.value} prefix={stat.prefix} />
-                {stat.suffix}
-              </span>
-              <span className="text-[15px] font-medium">{stat.label}</span>
-              <p className="m-0 max-w-[32ch] text-sm leading-[1.55] text-fg-secondary">
-                {stat.hint}
-              </p>
-            </div>
-          ))}
-        </div>
-      </Reveal>
+                  ? "text-[clamp(2.5rem,5.4vw,4.25rem)] text-(--color-accent)"
+                  : "text-[clamp(2.25rem,4vw,3.25rem)]"
+              }`}
+            />
+            <span className="mt-1 text-[15px] font-medium">{stat.label}</span>
+            <p className="m-0 max-w-[34ch] text-sm leading-[1.55] text-fg-secondary">
+              {stat.hint}
+            </p>
+          </Reveal>
+        ))}
+      </div>
     </section>
   );
 }

@@ -1,141 +1,141 @@
+import { Check } from "lucide-react";
+import type { ReactNode } from "react";
 import { Reveal } from "./reveal";
 import { Tabs, type Tab } from "./tabs";
 import { ZoomImage } from "./zoom-image";
+import type { Shot } from "./crop";
 
-const COPY = "flex flex-col gap-2.5 px-5 py-6 md:gap-3.25 md:p-11";
-const EYEBROW = "font-mono text-xs text-fg-muted";
-const TITLE =
-  "m-0 text-[22px] leading-[1.15] font-semibold tracking-[-0.028em] md:text-[28px] md:leading-[1.12]";
-const BODY = "m-0 text-[15px] leading-[1.6] text-fg-secondary";
-const CHIPS = "mt-1.5 flex flex-wrap gap-2 md:mt-2.5";
-const CHIP =
-  "inline-flex h-6.75 items-center rounded-full border border-line bg-surface-alt px-3 text-xs font-medium text-fg-secondary";
-const SHOT =
-  "flex h-full items-center overflow-hidden border-t border-line bg-sunken py-5 md:border-t-0 md:border-l md:py-10";
-const MOCK =
-  "flex h-full items-center justify-center border-t border-line bg-sunken p-5 md:border-t-0 md:border-l md:p-12";
+const FRAME = "overflow-hidden rounded-2xl border border-line bg-surface shadow-md";
+
+/** Copy on top, the screen at full width underneath: big enough to read. */
+function Panel({
+  title,
+  body,
+  features,
+  children,
+}: {
+  title: string;
+  body: string;
+  features: string[];
+  children: ReactNode;
+}) {
+  return (
+    <>
+      <div className="flex max-w-[62ch] flex-col gap-3">
+        <h3 className="m-0 font-display text-[clamp(1.5rem,2.6vw,2rem)] leading-[1.1] font-semibold tracking-[-0.028em]">
+          {title}
+        </h3>
+        <p className="m-0 text-base leading-[1.65] text-fg-secondary md:text-[17px]">
+          {body}
+        </p>
+        <ul className="m-0 mt-1 flex list-none flex-wrap gap-x-6 gap-y-2 p-0">
+          {features.map((feature) => (
+            <li key={feature} className="flex items-center gap-2 text-sm font-medium">
+              <Check aria-hidden strokeWidth={2} className="size-4 text-(--color-accent)" />
+              {feature}
+            </li>
+          ))}
+        </ul>
+      </div>
+      {children}
+    </>
+  );
+}
+
+function Screen(shot: Shot) {
+  return (
+    <div className={FRAME}>
+      <ZoomImage {...shot} vw={[100, 90]} />
+    </div>
+  );
+}
 
 const TABS: Tab[] = [
   {
     id: "vender",
     label: "Vender",
+    hint: "El mostrador",
     panel: (
-      <>
-        <div className={COPY}>
-          <span className={EYEBROW}>01 · Vender</span>
-          <h3 className={TITLE}>Cobrás en tres toques</h3>
-          <p className={BODY}>
-            Buscás el producto o lo tocás en la grilla, aplicás descuento,
-            elegís cómo te pagan. El ticket se arma solo a la derecha y el stock
-            baja en el momento.
-          </p>
-          <div className={CHIPS}>
-            <span className={CHIP}>Descuentos</span>
-            <span className={CHIP}>Talle y color</span>
-            <span className={CHIP}>Ticket digital</span>
-          </div>
-        </div>
-        <div className={SHOT}>
-          <ZoomImage
-            src="/assets/vender2.png"
-            alt="Pantalla de venta con grilla de productos y el ticket a la derecha"
-            width={1280}
-            height={924}
-            className="block h-auto w-full"
-          />
-        </div>
-      </>
+      <Panel
+        title="Cobrás en tres toques"
+        body="Buscás el producto o lo tocás en la grilla, aplicás descuento, elegís cómo te pagan. El ticket se arma solo a la derecha y el stock baja en el momento."
+        features={["Descuentos", "Talle y color", "Ticket digital"]}
+      >
+        <Screen
+          src="/assets/vender2.png"
+          alt="Pantalla de venta con grilla de productos y el ticket a la derecha"
+          width={1280}
+          height={924}
+          region={{ x: 0, y: 0, w: 1280, h: 640 }}
+        />
+      </Panel>
     ),
   },
   {
     id: "panel",
     label: "Panel",
+    hint: "Cómo va el negocio",
     panel: (
-      <>
-        <div className={COPY}>
-          <span className={EYEBROW}>02 · Panel</span>
-          <h3 className={TITLE}>El puesto de mando</h3>
-          <p className={BODY}>
-            Ingresos, unidades, ticket promedio y ganancia del día, la semana o
-            el año. Con avisos concretos: deuda vencida, capital inmovilizado,
-            productos que no rotan.
-          </p>
-          <div className={CHIPS}>
-            <span className="inline-flex h-6.75 items-center gap-1 rounded-full bg-ok-bg px-2.75 font-mono text-xs font-medium text-ok">
-              ↗ +78%
-            </span>
-            <span className="inline-flex h-6.75 items-center rounded-full bg-danger-bg px-3 text-xs font-medium text-danger">
-              Deuda vencida
-            </span>
-          </div>
-        </div>
-        <div className={SHOT}>
-          <ZoomImage
-            src="/assets/dashboard2.png"
-            alt="Panel con los indicadores de la semana"
-            width={1556}
-            height={771}
-            className="block h-auto w-full"
-          />
-        </div>
-      </>
+      <Panel
+        title="El puesto de mando"
+        body="Ingresos, unidades, ticket promedio y ganancia del día, la semana o el año. Con avisos concretos: deuda vencida, capital inmovilizado, productos que no rotan."
+        features={["Día, semana, mes o año", "Avisos de deuda y stock"]}
+      >
+        <Screen
+          src="/assets/dashboard2.png"
+          alt="Panel con los indicadores de la semana"
+          width={1556}
+          height={771}
+          region={{ x: 0, y: 0, w: 1542, h: 771 }}
+        />
+      </Panel>
     ),
   },
   {
     id: "caja",
     label: "Caja",
+    hint: "Apertura y arqueo",
     panel: (
-      <>
-        <div className={COPY}>
-          <span className={EYEBROW}>03 · Caja</span>
-          <h3 className={TITLE}>Abrís, vendés, arqueás</h3>
-          <p className={BODY}>
-            Apertura y cierre con el efectivo esperado contra el contado. Si
-            falta plata, te enterás el mismo día y no a fin de mes.
-          </p>
-          <div className={CHIPS}>
-            <span className="inline-flex h-6.75 items-center gap-1.5 rounded-full border border-ok-border bg-ok-bg px-3 text-xs font-medium text-ok">
-              <span className="size-[5px] rounded-full bg-ok" />
-              Caja abierta
-            </span>
-            <span className={CHIP}>Ingresos y egresos</span>
-          </div>
-        </div>
-        <div className={MOCK}>
-          <div className="w-full max-w-[420px] overflow-hidden rounded-[18px] border border-line bg-surface shadow-lg">
+      <Panel
+        title="Abrís, vendés, arqueás"
+        body="Apertura y cierre con el efectivo esperado contra el contado. Si falta plata, te enterás el mismo día y no a fin de mes."
+        features={["Apertura y cierre", "Ingresos y egresos"]}
+      >
+        {/* The real close-register dialog, rebuilt at size: there is no
+          screenshot of it, and this is the one screen that fits in a card. */}
+        <div className={`${FRAME} flex items-center justify-center bg-sunken p-5 md:aspect-[2/1] md:p-12`}>
+          <div className="w-full max-w-[420px] overflow-hidden rounded-2xl border border-line bg-surface shadow-lg">
             <div className="flex flex-col gap-1.5 px-6 pt-5.5 pb-4.5">
-              <span className="text-[17px] font-semibold tracking-[-0.01em]">
-                Cerrar caja
-              </span>
+              <span className="text-[17px] font-semibold tracking-[-0.01em]">Cerrar caja</span>
               <p className="m-0 text-[13px] leading-[1.55] text-fg-secondary">
-                Se registra el arqueo del día y no podés registrar más ventas
-                hasta abrir de nuevo.
+                Se registra el arqueo del día y no podés registrar más ventas hasta
+                abrir de nuevo.
               </p>
             </div>
-            <div className="flex flex-col gap-2.25 px-6 pb-5 text-[13px]">
+            <dl className="m-0 flex flex-col gap-2.25 px-6 pb-5 text-[13px]">
               <div className="flex justify-between">
-                <span className="text-fg-secondary">Apertura</span>
-                <span className="font-mono font-medium">$ 20.000</span>
+                <dt className="text-fg-secondary">Apertura</dt>
+                <dd className="m-0 font-mono font-medium">$ 20.000</dd>
               </div>
               <div className="flex justify-between">
-                <span className="text-fg-secondary">Ventas en efectivo</span>
-                <span className="font-mono font-medium">$ 108.400</span>
+                <dt className="text-fg-secondary">Ventas en efectivo</dt>
+                <dd className="m-0 font-mono font-medium">$ 108.400</dd>
               </div>
               <div className="my-0.75 h-px bg-line" />
               <div className="flex justify-between">
-                <span className="text-fg-secondary">Efectivo esperado</span>
-                <span className="font-mono font-medium">$ 128.400</span>
+                <dt className="text-fg-secondary">Efectivo esperado</dt>
+                <dd className="m-0 font-mono font-medium">$ 128.400</dd>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-fg-secondary">Contado</span>
-                <span className="inline-flex items-center gap-2">
+                <dt className="text-fg-secondary">Contado</dt>
+                <dd className="m-0 inline-flex items-center gap-2">
                   <span className="inline-flex h-5 items-center rounded-md bg-ok-bg px-[7px] font-mono text-[11px] font-medium text-ok">
                     sin diferencia
                   </span>
                   <span className="font-mono font-medium">$ 128.400</span>
-                </span>
+                </dd>
               </div>
-            </div>
+            </dl>
             <div className="flex justify-end gap-2.5 border-t border-line bg-surface-alt px-6 py-4">
               <span className="inline-flex h-9 items-center rounded-[10px] border border-line bg-surface px-4 text-[13px] font-medium">
                 Cancelar
@@ -146,60 +146,42 @@ const TABS: Tab[] = [
             </div>
           </div>
         </div>
-      </>
+      </Panel>
     ),
   },
   {
     id: "inventario",
     label: "Inventario",
+    hint: "Stock y catálogo",
     panel: (
-      <>
-        <div className={COPY}>
-          <span className={EYEBROW}>04 · Inventario</span>
-          <h3 className={TITLE}>Carga rápida y catálogo</h3>
-          <p className={BODY}>
-            Cargás productos con foto, talle y color en lote. El mismo catálogo
-            lo compartís por WhatsApp sin armar nada aparte.
-          </p>
-          <div className={CHIPS}>
-            <span className="inline-flex h-6.75 items-center rounded-full bg-warn-bg px-3 text-xs font-medium text-warn">
-              Stock crítico
-            </span>
-            <span className={CHIP}>Importar desde Excel</span>
-          </div>
-        </div>
-        <div className={SHOT}>
-          <ZoomImage
-            src="/assets/table-stock.png"
-            alt="Tabla de inventario con stock, precios y estado de cada producto"
-            width={1565}
-            height={879}
-            className="block h-auto w-full"
-          />
-        </div>
-      </>
+      <Panel
+        title="Carga rápida y catálogo"
+        body="Cargás productos con foto, talle y color en lote. El mismo catálogo lo compartís por WhatsApp sin armar nada aparte."
+        features={["Carga en lote", "Importar desde Excel"]}
+      >
+        <Screen
+          src="/assets/table-stock.png"
+          alt="Tabla de inventario con stock, precios y estado de cada producto"
+          width={1565}
+          height={879}
+          region={{ x: 0, y: 0, w: 1565, h: 782 }}
+        />
+      </Panel>
     ),
   },
 ];
 
 export function Modules() {
   return (
-    <section id="modulos" className="mx-auto max-w-[1200px] px-5 pt-20 md:px-8 md:pt-30">
-      <Reveal className="mb-6 md:mb-9">
-        <div className="flex flex-wrap items-end justify-between gap-5 md:gap-10">
-          <div className="max-w-[54ch]">
-            <span className="text-xs font-semibold tracking-[0.09em] text-brand uppercase">
-              Qué hace
-            </span>
-            <h2 className="mt-3.5 mb-0 text-[clamp(2rem,5vw,3rem)] leading-[1.06] font-semibold tracking-[-0.035em] text-balance">
-              Cuatro pantallas y ya está todo el negocio
-            </h2>
-          </div>
-          <p className="m-0 max-w-[34ch] text-base leading-[1.6] text-fg-secondary">
-            El sistema de gestión y el punto de venta vienen juntos: nada de
-            módulos que se compran aparte. Todo desde el primer día.
-          </p>
-        </div>
+    <section id="modulos" className="mx-auto max-w-[1200px] px-5 pt-24 md:px-8 md:pt-36">
+      <Reveal className="mb-8 flex max-w-[720px] flex-col gap-4 md:mb-12">
+        <h2 className="m-0 font-display text-[clamp(2.25rem,5vw,3.75rem)] leading-[1.02] font-semibold tracking-[-0.035em] text-balance">
+          Cuatro pantallas y ya está todo el negocio
+        </h2>
+        <p className="m-0 text-lg leading-[1.6] text-fg-secondary">
+          El sistema de gestión y el punto de venta vienen juntos: nada de módulos
+          que se compran aparte. Todo desde el primer día.
+        </p>
       </Reveal>
 
       <Reveal>

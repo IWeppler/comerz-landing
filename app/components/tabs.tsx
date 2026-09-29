@@ -4,10 +4,10 @@ import { useState, type KeyboardEvent, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
 import { SlidingPill } from "./hover";
 
-export type Tab = { id: string; label: string; panel: ReactNode };
+export type Tab = { id: string; label: string; hint: string; panel: ReactNode };
 
 /**
- * Cross-fades between panels that all share one grid cell, so the card keeps
+ * Cross-fades between panels that all share one grid cell, so the block keeps
  * the height of the tallest panel and nothing jumps while switching.
  */
 export function Tabs({ tabs }: { tabs: Tab[] }) {
@@ -34,13 +34,13 @@ export function Tabs({ tabs }: { tabs: Tab[] }) {
 
   return (
     <>
-      {/* On phones the bar sticks under the nav, so switching panels never means
+      {/* On phones the row sticks under the nav, so switching panels never means
         scrolling back up to the top of the section. */}
-      <div className="sticky top-[74px] z-30 -mx-5 mb-4 bg-canvas/80 px-5 py-2 backdrop-blur-[12px] md:static md:mx-0 md:mb-6 md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-none">
+      <div className="sticky top-[74px] z-30 -mx-5 bg-canvas/85 px-5 backdrop-blur-[12px] md:static md:mx-0 md:bg-transparent md:px-0 md:backdrop-blur-none">
         <div
           role="tablist"
           aria-label="Pantallas de Comerz"
-          className="flex w-full gap-1 rounded-[14px] border border-line bg-surface-alt p-1.25 md:w-fit md:gap-1.5"
+          className="grid grid-cols-4 border-b border-line"
         >
           {tabs.map((tab, i) => {
             const selected = tab.id === active;
@@ -56,24 +56,34 @@ export function Tabs({ tabs }: { tabs: Tab[] }) {
                 onKeyDown={(e) => move(e, i)}
                 onClick={() => setActive(tab.id)}
                 className={cn(
-                  "relative flex-1 cursor-pointer rounded-[10px] px-2 py-2 font-sans text-[13px] font-medium transition-colors duration-250 ease-brand md:flex-none md:px-5 md:py-2.5 md:text-sm",
-                  selected ? "text-fg" : "text-fg-secondary hover:text-fg",
+                  "group relative flex cursor-pointer flex-col items-start gap-1 border-0 bg-transparent py-3.5 pr-3 text-left font-sans transition-colors duration-250 ease-brand md:py-6 md:pr-8",
+                  selected ? "text-fg" : "text-fg-muted hover:text-fg",
                 )}
               >
+                <span className="font-display text-[15px] font-semibold tracking-[-0.01em] md:text-xl">
+                  {tab.label}
+                </span>
+                <span
+                  className={cn(
+                    "hidden text-sm leading-[1.45] md:block",
+                    selected ? "text-fg-secondary" : "text-fg-muted",
+                  )}
+                >
+                  {tab.hint}
+                </span>
                 {selected && (
                   <SlidingPill
                     group="tabs-active"
-                    className="absolute inset-0 rounded-[10px] border border-line bg-surface shadow-sm"
+                    className="absolute inset-x-0 -bottom-px h-[2px] bg-action"
                   />
                 )}
-                <span className="relative">{tab.label}</span>
               </button>
             );
           })}
         </div>
       </div>
 
-      <div className="grid overflow-hidden rounded-[20px] border border-line bg-surface shadow-sm">
+      <div className="mt-8 grid md:mt-10">
         {tabs.map((tab) => {
           const selected = tab.id === active;
           return (
@@ -86,7 +96,7 @@ export function Tabs({ tabs }: { tabs: Tab[] }) {
               inert={!selected}
               style={{ gridArea: "1 / 1" }}
               className={cn(
-                "grid items-center transition-[opacity,transform] duration-450 ease-brand md:grid-cols-[minmax(300px,400px)_1fr]",
+                "flex flex-col gap-7 transition-[opacity,transform] duration-450 ease-brand md:gap-9",
                 selected
                   ? "z-2 translate-y-0 opacity-100"
                   : "pointer-events-none z-1 translate-y-2 opacity-0",

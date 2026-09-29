@@ -1,10 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import { cn, formatAmount } from "@/lib/cn";
-import { prefersReducedMotion, useInView } from "./reveal";
+import {
+  animate,
+  motion,
+  useInView,
+  useMotionValue,
+  useReducedMotion,
+  useTransform,
+} from "motion/react";
+import { useEffect, useRef } from "react";
+import { formatAmount } from "@/lib/cn";
 
-/** Counts up to `value` when scrolled into view. Renders the final value on the server. */
+/**
+ * Counts up to `value` the first time it scrolls into view. The number lives in
+ * a motion value, so the count never re-renders React; the server renders the
+ * final value.
+ */
 export function Counter({
   value,
   prefix = "$ ",
@@ -14,52 +25,40 @@ export function Counter({
   prefix?: string;
   className?: string;
 }) {
-  const [display, setDisplay] = useState(value);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.6 });
+  const reduce = useReducedMotion();
+  const count = useMotionValue(value);
+  const text = useTransform(count, (v) => `${prefix}${formatAmount(Math.round(v))}`);
 
-  const ref = useInView<HTMLSpanElement>(() => {
-    if (prefersReducedMotion()) return;
-
-    const duration = 1100;
-    const start = performance.now();
-    const step = (now: number) => {
-      const p = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - p, 4);
-      setDisplay(Math.round(value * eased));
-      if (p < 1) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  });
+  useEffect(() => {
+    if (!inView || reduce) return;
+    count.set(0);
+    const controls = animate(count, value, { duration: 1.1, ease: [0.22, 1, 0.36, 1] });
+    return () => controls.stop();
+  }, [inView, reduce, value, count]);
 
   return (
-    <span ref={ref} className={className}>
-      {prefix}
-      {formatAmount(display)}
-    </span>
+    <motion.span ref={ref} className={className}>
+      {text}
+    </motion.span>
   );
 }
 
-/** Horizontal meter that grows to `pct` when scrolled into view. */
-export function Bar({
-  pct,
-  tone,
-  delay = 0,
-}: {
-  pct: number;
-  tone: "warn" | "danger";
-  delay?: number;
-}) {
-  const [grown, setGrown] = useState(false);
-  const ref = useInView<HTMLDivElement>(() => setGrown(true));
+/** Tweens between amounts when `value` changes, e.g. when the billing cycle flips. */
+export function Amount({ value, className }: { value: number; className?: string }) {
+  const reduce = useReducedMotion();
+  const amount = useMotionValue(value);
+  const text = useTransform(amount, (v) => `$ ${formatAmount(Math.round(v))}`);
 
-  return (
-    <div ref={ref} className="h-[5px] overflow-hidden rounded-[3px] bg-sunken">
-      <div
-        style={{ width: grown ? `${pct}%` : 0, transitionDelay: `${delay}ms` }}
-        className={cn(
-          "h-full rounded-[3px] transition-[width] duration-1000 ease-brand",
-          tone === "warn" ? "bg-warn" : "bg-danger",
-        )}
-      />
-    </div>
-  );
+  useEffect(() => {
+    if (reduce) {
+      amount.set(value);
+      return;
+    }
+    const controls = animate(amount, value, { duration: 0.42, ease: [0.22, 1, 0.36, 1] });
+    return () => controls.stop();
+  }, [value, reduce, amount]);
+
+  return <motion.span className={className}>{text}</motion.span>;
 }

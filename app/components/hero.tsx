@@ -1,108 +1,65 @@
+import { ArrowRight } from "lucide-react";
+import localFont from "next/font/local";
 import { AUTH_URL } from "@/lib/links";
-import { Reveal } from "./reveal";
-import { HeroVisual } from "./hero-visual";
+import { HeroNotebook } from "./hero-notebook";
 import { HoverLink } from "./hover";
 
-const HEADLINE = [
-  { word: "Todo" },
-  { word: "tu" },
-  { word: "negocio" },
-  { word: "en" },
-  { word: "un" },
-  { word: "solo", accent: true },
-  { word: "lugar", accent: true },
-];
+/**
+ * Ballpoint handwriting for the notebook only, loaded here and not in the root
+ * layout so the site's type stack stays untouched. Self-hosted (OFL, see
+ * app/fonts) and cut down to Latin + Spanish characters: 19 KB. Not preloaded,
+ * so it never competes with the headline, which is the LCP.
+ */
+const hand = localFont({
+  src: "../fonts/ReenieBeanie-latin.woff2",
+  weight: "400",
+  display: "swap",
+  preload: false,
+});
 
 export function Hero() {
   return (
-    <section id="top" className="relative px-5 pt-32 md:px-8 md:pt-42">
-      {/* Grid paper + aurora wash behind the headline. */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-[900px] bg-[linear-gradient(oklch(0.16_0_0/0.045)_1px,transparent_1px),linear-gradient(90deg,oklch(0.16_0_0/0.045)_1px,transparent_1px)] bg-[length:64px_64px] [mask-image:radial-gradient(90%_60%_at_50%_18%,#000_20%,transparent_78%)]" />
-      <div className="pointer-events-none absolute inset-x-0 -top-40 h-[820px] bg-[radial-gradient(46%_52%_at_50%_30%,oklch(0.53_0.18_264/0.16),transparent_72%),radial-gradient(38%_42%_at_76%_18%,oklch(0.7_0.17_35/0.12),transparent_72%)]" />
+    <section id="top" className="relative px-5 pt-24 md:px-8">
+      <div className="mx-auto grid max-w-[1200px] grid-cols-[minmax(0,1fr)] items-center gap-16 pt-10 pb-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-10 lg:pt-16">
+        {/* Static on purpose: the headline is the LCP element, so it paints
+          with the first frame instead of waiting on an entrance animation. */}
+        <div className="flex flex-col items-start gap-7">
+          <h1 className="m-0 font-display text-[clamp(3.5rem,8.2vw,7rem)] leading-[0.92] font-semibold tracking-[-0.045em]">
+            Cerrá el
+            <br />
+            cuaderno.
+          </h1>
 
-      <div className="relative mx-auto flex max-w-[1200px] flex-col items-center gap-6 text-center">
-        <Reveal>
-          <HoverLink
-            href="#modulos"
-            lift={-1}
-            className="group inline-flex h-9 max-w-full items-center gap-2 rounded-full border border-line bg-surface px-2 text-[12.5px] font-medium whitespace-nowrap text-fg-secondary no-underline shadow-sm transition-[box-shadow,border-color] duration-250 ease-brand hover:border-line-strong hover:shadow-md md:gap-2.5 md:text-[13px]"
-          >
-            <span className="inline-flex h-6 shrink-0 items-center rounded-full bg-[oklch(0.7_0.17_35/0.14)] px-2.5 text-xs font-semibold text-[oklch(0.52_0.17_35)]">
-              Nuevo
-            </span>
-            <span className="truncate">
-              Catálogo online
-              <span className="hidden sm:inline"> para compartir</span> por WhatsApp
-            </span>
-            <span className="shrink-0 pr-2 text-fg-muted transition-transform duration-250 ease-brand group-hover:translate-x-0.5">
-              →
-            </span>
-          </HoverLink>
-        </Reveal>
-
-        <h1 className="m-0 max-w-[14ch] text-[clamp(2.75rem,9vw,5.125rem)] leading-[0.96] font-semibold tracking-[-0.045em] text-balance">
-          {HEADLINE.map(({ word, accent }, i) => (
-            <span
-              key={word}
-              style={{ animationDelay: `${60 + i * 55}ms` }}
-              className={`inline-block motion-safe:animate-word-in ${accent ? "text-action" : ""}`}
-            >
-              {word}
-              {i < HEADLINE.length - 1 ? " " : ""}
-            </span>
-          ))}
-        </h1>
-
-        <Reveal>
-          <p className="m-0 max-w-[56ch] text-lg leading-[1.55] text-pretty text-fg-secondary md:text-xl">
-            Dejá el cuaderno y las diez planillas de excel. Un sistema de gestión para
-            comercios donde vendés, cobrás, controlás el stock y sabés cuánto ganaste —
-            todo en la misma pantalla, actualizado al instante.
+          <p className="m-0 max-w-[36ch] text-lg leading-[1.55] text-pretty text-fg-secondary md:text-xl">
+            Comerz es el sistema de punto de venta para tu comercio: ventas, caja,
+            stock y fiados en un solo lugar.
           </p>
-        </Reveal>
 
-        <Reveal className="mt-1.5">
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-1 flex flex-wrap items-center gap-3">
             <HoverLink
               href={AUTH_URL}
-              lift={-3}
-              className="relative inline-flex h-13.5 items-center gap-2.5 overflow-hidden rounded-[13px] bg-action px-7 text-base font-medium text-action-fg no-underline shadow-action transition-[box-shadow,background-color] duration-280 ease-brand hover:bg-action-hover hover:shadow-action-lg"
+              lift={-2}
+              className="inline-flex h-13 items-center rounded-[10px] bg-action px-6.5 text-base font-medium whitespace-nowrap text-action-fg no-underline shadow-[0_8px_22px_oklch(0.56_0.19_35/0.26)] transition-[box-shadow,background-color] duration-280 ease-brand hover:bg-action-hover hover:shadow-[0_14px_32px_oklch(0.56_0.19_35/0.32)]"
             >
-              <span className="pointer-events-none absolute inset-y-0 left-0 w-[38%] bg-[linear-gradient(100deg,transparent,oklch(1_0_0/0.28),transparent)] motion-safe:animate-sheen" />
-              <span className="relative">Probar 14 días gratis</span>
+              Probar 14 días gratis
             </HoverLink>
             <HoverLink
               href="#modulos"
-              lift={-3}
-              className="group inline-flex h-13.5 items-center gap-2.5 rounded-[13px] border border-line bg-surface px-6 text-base font-medium whitespace-nowrap text-fg no-underline shadow-sm transition-[background-color,border-color,box-shadow] duration-280 ease-brand hover:border-line-strong hover:bg-surface-alt hover:shadow-md"
+              lift={-2}
+              className="group inline-flex h-13 items-center gap-2 rounded-[10px] border border-line-strong px-5.5 text-base font-medium whitespace-nowrap text-fg no-underline transition-colors duration-280 ease-brand hover:bg-surface-alt"
             >
-              <svg
-                aria-hidden
-                viewBox="0 0 16 16"
-                className="size-3.5 fill-fg-muted transition-colors duration-280 ease-brand group-hover:fill-action"
-              >
-                <path d="M4 3.3a.8.8 0 0 1 1.22-.68l7.1 4.7a.8.8 0 0 1 0 1.36l-7.1 4.7A.8.8 0 0 1 4 12.7V3.3Z" />
-              </svg>
               Ver cómo funciona
+              <ArrowRight
+                aria-hidden
+                strokeWidth={1.75}
+                className="size-4 text-fg-muted transition-transform duration-280 ease-brand group-hover:translate-x-0.5"
+              />
             </HoverLink>
           </div>
-        </Reveal>
+        </div>
 
-        <Reveal>
-          <div className="flex flex-wrap items-center justify-center gap-4.5 text-[13px] text-fg-muted">
-            <span className="inline-flex items-center gap-[7px]">
-              <span className="size-1.5 rounded-full bg-ok motion-safe:animate-pulse-dot" />
-              Sin tarjeta
-            </span>
-            <span className="size-[3px] rounded-full bg-line-strong" />
-            <span>Sin instalar nada</span>
-            <span className="size-[3px] rounded-full bg-line-strong" />
-            <span>Andá probando mientras vendés</span>
-          </div>
-        </Reveal>
+        <HeroNotebook handClassName={hand.className} />
       </div>
-
-      <HeroVisual />
     </section>
   );
 }

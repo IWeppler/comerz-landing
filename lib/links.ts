@@ -1,6 +1,9 @@
 /** Destino de los CTA que arrancan la prueba y del ingreso a la app. */
 export const AUTH_URL = "https://app.comerz.app/auth";
 
+/** WhatsApp de soporte: dudas sobre el sistema, desde las preguntas y el pie. */
+export const WHATSAPP_URL = "https://wa.me/5491154702118";
+
 /** WhatsApp de la charla: la vía alternativa para anotarse sin llenar el form. */
 export const CHARLA_WHATSAPP_URL = "https://wa.me/5493491503094";
 
