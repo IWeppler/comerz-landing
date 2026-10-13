@@ -4,62 +4,215 @@
  * uses them, stay exactly as they are.
  *
  * Tailwind colour utilities read their CSS variables at use time, so
- * redefining the variables on `.landing` restyles `bg-action`, `text-fg` and
- * friends inside the landing only. Colours the global theme does not have are
- * used as `text-(--color-accent)` and the like.
+ * redefining the variables on `.landing` restyles `bg-canvas`, `text-fg` and
+ * friends inside the landing only.
  *
- * One accent: the logo orange. `--color-action` is the deeper tone that holds
- * white text (4.9:1) for buttons; `--color-accent` is orange used as text.
- * Radii: controls 10px, surfaces 16px.
+ * Papel cálido, tinta casi negra y un solo acento: el naranja del logo. El
+ * naranja va en botones, precios y tildes, en ningún lado más; si aparece en
+ * todos lados deja de marcar.
+ *
+ * Tema: claro por defecto, oscuro si el sistema lo pide, y el botón del pie
+ * fuerza uno u otro con `data-theme` en la raíz `.landing` (ver
+ * THEME_SCRIPT en page.tsx).
  */
 .landing {
-  --color-brand-soft: oklch(0.955 0.035 42);
-  --color-brand-line: oklch(0.86 0.08 40);
+  --color-canvas: #f4f2ec;
+  --color-surface: #ffffff;
+  --color-surface-alt: #eae6dc;
+  --color-sunken: #e4dfd3;
 
-  --color-canvas: oklch(0.985 0.003 60);
-  --color-surface: oklch(0.997 0.002 60);
-  --color-surface-alt: oklch(0.965 0.004 60);
-  --color-sunken: oklch(0.94 0.005 60);
+  --color-fg: #1a1712;
+  --color-fg-secondary: #5c574e;
+  --color-fg-muted: #7c766c;
 
-  --color-fg: oklch(0.19 0.006 50);
-  --color-fg-secondary: oklch(0.43 0.006 50);
-  --color-fg-muted: oklch(0.54 0.006 50);
+  --color-line: rgb(26 23 18 / 0.1);
+  --color-line-strong: rgb(26 23 18 / 0.18);
 
-  --color-line: oklch(0.915 0.005 60);
-  --color-line-strong: oklch(0.85 0.006 60);
+  --color-accent: #e8401a;
+  --color-accent-rgb: 232 64 26;
+  --color-brand-soft: #fde6dc;
+  --color-brand-line: #f6b7a1;
 
-  --color-action: oklch(0.56 0.19 35);
-  --color-action-hover: oklch(0.51 0.18 35);
-  --color-action-fg: oklch(0.99 0.005 60);
-  --color-accent: oklch(0.56 0.19 35);
+  /* Variación positiva en las tarjetas de KPI, el verde del panel. */
+  --color-up: #12804a;
 
-  color-scheme: light dark;
+  /* Los fragments animados del producto usan `action` para sus botones. */
+  --color-action: #e8401a;
+  --color-action-hover: #d23810;
+  --color-action-fg: #ffffff;
+
+  --grain-blend: multiply;
+  --grain-opacity: 0.35;
+
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  .landing {
-    --color-brand-soft: oklch(0.27 0.05 40);
-    --color-brand-line: oklch(0.42 0.1 40);
+  .landing:not([data-theme="light"]) {
+    --color-canvas: #0a0a0a;
+    --color-surface: #141414;
+    --color-surface-alt: #161616;
+    --color-sunken: #1c1c1c;
 
-    --color-canvas: oklch(0.17 0.004 60);
-    --color-surface: oklch(0.205 0.005 60);
-    --color-surface-alt: oklch(0.24 0.005 60);
-    --color-sunken: oklch(0.15 0.004 60);
+    --color-fg: #f5f5f5;
+    --color-fg-secondary: rgb(255 255 255 / 0.66);
+    --color-fg-muted: rgb(255 255 255 / 0.5);
 
-    --color-fg: oklch(0.965 0.004 60);
-    --color-fg-secondary: oklch(0.78 0.005 60);
-    --color-fg-muted: oklch(0.66 0.005 60);
+    --color-line: rgb(255 255 255 / 0.08);
+    --color-line-strong: rgb(255 255 255 / 0.16);
 
-    --color-line: oklch(0.28 0.005 60);
-    --color-line-strong: oklch(0.36 0.006 60);
+    --color-accent: #ff5a2e;
+    --color-accent-rgb: 255 90 46;
+    --color-brand-soft: #2a160b;
+    --color-brand-line: #6b2c16;
+    --color-up: #3ecf8e;
 
-    --color-action: oklch(0.58 0.19 36);
-    --color-action-hover: oklch(0.63 0.19 38);
-    --color-accent: oklch(0.74 0.15 45);
+    --color-action: #f04a1f;
+    --color-action-hover: #ff5a2e;
+
+    --grain-blend: overlay;
+    --grain-opacity: 0.22;
+
+    color-scheme: dark;
   }
 }
 
-/* Display face for headlines and big numbers, loaded by the landing page. */
-.font-display {
-  font-family: var(--font-bricolage), var(--font-geist-sans), system-ui, sans-serif;
+.landing[data-theme="dark"] {
+  --color-canvas: #0a0a0a;
+  --color-surface: #141414;
+  --color-surface-alt: #161616;
+  --color-sunken: #1c1c1c;
+
+  --color-fg: #f5f5f5;
+  --color-fg-secondary: rgb(255 255 255 / 0.66);
+  --color-fg-muted: rgb(255 255 255 / 0.5);
+
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-line-strong: rgb(255 255 255 / 0.16);
+
+  --color-accent: #ff5a2e;
+  --color-accent-rgb: 255 90 46;
+  --color-brand-soft: #2a160b;
+  --color-brand-line: #6b2c16;
+  --color-up: #3ecf8e;
+
+  --color-action: #f04a1f;
+  --color-action-hover: #ff5a2e;
+
+  --grain-blend: overlay;
+  --grain-opacity: 0.22;
+
+  color-scheme: dark;
+}
+
+.landing {
+  transition:
+    background-color 0.45s ease,
+    color 0.45s ease;
+}
+
+/* Grano de papel sobre toda la página. Fijo y sin eventos: no se scrollea ni
+   tapa clics. */
+.landing .grain {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--grain-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+/* Titulares: Inter Tight para los de sección y Bebas Neue en mayúsculas
+   para los carteles grandes. Las fuentes las carga page.tsx. */
+.landing .font-display {
+  font-family: var(--font-inter-tight), var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.poster {
+  font-family: var(--font-bebas), Impact, "Arial Narrow", sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.88;
+  letter-spacing: 0.002em;
+}
+
+/* Tilde en círculo naranja para las listas de beneficios. */
+.ticks li {
+  position: relative;
+  padding-left: 38px;
+}
+
+.ticks li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(0.8em - 12px);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgb(var(--color-accent-rgb) / 0.14);
+}
+
+.ticks li::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 0.8em;
+  width: 9px;
+  height: 5.5px;
+  border-left: 2.5px solid var(--color-accent);
+  border-bottom: 2.5px solid var(--color-accent);
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* Entrada del hero: cada línea sube desde un desenfoque. CSS y no JS, porque
+   el título es el LCP y tiene que pintarse con el primer frame del CSS. */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0);
+    filter: blur(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+.rise-in {
+  animation: rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Las tarjetas de KPI flotan apenas junto al teléfono. */
+@keyframes bob {
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.bob {
+  animation: bob 6s ease-in-out infinite;
+}
+
+/* El carrusel se desliza con el dedo; la barra nativa sobra. */
+.rail {
+  scrollbar-width: none;
+}
+
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-rise] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+
+  .bob {
+    animation: none;
+  }
 }

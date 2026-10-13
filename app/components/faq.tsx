@@ -1,6 +1,7 @@
 import { Plus } from "lucide-react";
 import { WHATSAPP_URL } from "@/lib/links";
-import { Reveal } from "./reveal";
+import { MoreLink, WRAP } from "./bits";
+import { Reveal, RiseLines } from "./rise";
 
 const ITEMS = [
   {
@@ -40,42 +41,34 @@ export function Faq() {
   return (
     <section
       id="faq"
-      className="mx-auto grid max-w-[1200px] gap-8 px-5 pt-24 md:px-8 md:pt-36 lg:grid-cols-12 lg:gap-10"
+      className={`${WRAP} grid scroll-mt-16 gap-10 py-[clamp(50px,8vh,100px)] lg:grid-cols-12 lg:gap-12`}
     >
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }}
       />
-      <Reveal className="flex flex-col gap-4 lg:col-span-4">
-        <h2 className="m-0 font-display text-[clamp(2rem,4vw,2.75rem)] leading-[1.05] font-semibold tracking-[-0.035em] text-balance">
-          Preguntas frecuentes sobre el sistema
-        </h2>
-        <p className="m-0 max-w-[34ch] text-base leading-[1.6] text-fg-secondary">
-          ¿No está la tuya?{" "}
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-medium text-(--color-accent) underline decoration-(--color-brand-line) underline-offset-4 transition-colors hover:decoration-current"
-          >
-            Escribinos por WhatsApp
-          </a>
-        </p>
-      </Reveal>
+      <div className="flex flex-col gap-6 lg:col-span-5">
+        <RiseLines lines={["Buenas", "preguntas."]} className="poster m-0 text-[clamp(64px,8vw,128px)]" />
+        <Reveal delay={150}>
+          <MoreLink href={WHATSAPP_URL} external>
+            ¿No está la tuya? Escribinos
+          </MoreLink>
+        </Reveal>
+      </div>
 
-      <Reveal className="lg:col-span-8">
+      <Reveal className="lg:col-span-7">
         <div className="border-t border-line">
           {ITEMS.map((item) => (
             <details key={item.q} name="faq" className="group border-b border-line">
-              <summary className="flex cursor-pointer list-none items-center gap-4 py-5.5 text-base font-medium transition-colors hover:text-(--color-accent) md:py-6.5 md:text-lg [&::-webkit-details-marker]:hidden">
+              <summary className="flex cursor-pointer list-none items-center gap-4 py-6 text-[17px] font-semibold tracking-[-0.01em] transition-opacity hover:opacity-70 md:text-xl [&::-webkit-details-marker]:hidden">
                 <span className="flex-1">{item.q}</span>
                 <Plus
                   aria-hidden
-                  strokeWidth={1.75}
-                  className="size-5 shrink-0 text-fg-muted transition-transform duration-300 ease-brand group-open:rotate-45"
+                  strokeWidth={2}
+                  className="size-5 shrink-0 text-(--color-accent) transition-transform duration-300 ease-brand group-open:rotate-45"
                 />
               </summary>
-              <p className="m-0 max-w-[62ch] pb-6 text-[15px] leading-[1.7] text-fg-secondary md:pb-7 md:text-base">
+              <p className="m-0 max-w-[60ch] pb-7 text-[15px] leading-[1.7] text-fg-muted md:text-base">
                 {item.a}
               </p>
             </details>

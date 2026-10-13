@@ -16,7 +16,7 @@ import { HoverLink, SlidingPill, SPRING_SOFT } from "./hover";
 
 const LINKS = [
   { href: "/#modulos", label: "Qué hace" },
-  { href: "/#por-que", label: "Por qué cambiarte" },
+  { href: "/#insights", label: "Insights" },
   { href: "/#precios", label: "Precio" },
   { href: "/#faq", label: "Preguntas" },
 ];
