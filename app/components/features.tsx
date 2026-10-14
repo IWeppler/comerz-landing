@@ -90,8 +90,8 @@ export function Cash() {
  * queda la captura de la tabla de stock.
  */
 const IMPORT_VIDEO: { src: string; type: string }[] | null = [
-  { src: "/assets/importar-stock.webm", type: "video/webm" },
   { src: "/assets/importar-stock.mp4", type: "video/mp4" },
+  { src: "/assets/importar-stock.webm", type: "video/webm" },
 ];
 
 const STEPS = [
