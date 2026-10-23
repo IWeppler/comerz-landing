@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { AUTH_URL, WHATSAPP_URL } from "@/lib/links";
+import { AUTH_URL, TRIAL_URL, WHATSAPP_URL } from "@/lib/links";
 import { HoverLink } from "./hover";
 
 type FooterLink = { label: string; href: string; external?: boolean };
@@ -30,7 +30,7 @@ const COLUMNS: { title: string; links: FooterLink[] }[] = [
   {
     title: "Empezar",
     links: [
-      { label: "Probar 14 días gratis", href: AUTH_URL, external: true },
+      { label: "Probar 14 días gratis", href: TRIAL_URL, external: true },
       { label: "Ingresar", href: AUTH_URL, external: true },
       { label: "Ver los planes", href: "/#precios" },
     ],
@@ -89,7 +89,7 @@ export function Footer() {
         <span className="text-[13px] text-fg-muted">
           Hecho en Argentina · Powered by{" "}
           <a
-            href="https://www.ignacioweppler.com"
+            href="https://www.ignacioweppler.dev"
             target="_blank"
             rel="noopener"
             className="text-fg-secondary transition-colors hover:text-fg hover:decoration-fg-muted"

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
-import { AUTH_URL, WHATSAPP_URL } from "@/lib/links";
+import { TRIAL_URL, WHATSAPP_URL } from "@/lib/links";
 import { Eyebrow, MoreLink, WRAP } from "./bits";
 import { CuentaFragment, InsightsFragment } from "./fragments";
 import { Reveal, RiseLines } from "./rise";
@@ -35,11 +35,11 @@ function Shot({ src, alt, width, height }: { src: string; alt: string; width: nu
 
 const CARDS: Card[] = [
   {
-    id: "insights",
-    eyebrow: "Comerz Insights",
+    id: "Intelligence",
+    eyebrow: "Comerz Intelligence",
     title: ["Te dice qué está", "frenado."],
     body: "Mira tus ventas, tu stock y tus fiados, y te avisa en castellano: plata parada en mercadería, deuda vencida, productos que no rotan. Y qué conviene hacer.",
-    link: { label: "Probarlo con tus datos", href: AUTH_URL },
+    link: { label: "Probarlo con tus datos", href: TRIAL_URL },
     visual: <InsightsFragment />,
   },
   {
@@ -47,7 +47,7 @@ const CARDS: Card[] = [
     eyebrow: "Cuenta corriente",
     title: ["Nadie te queda", "debiendo."],
     body: "Cada cliente con su saldo y la deuda vencida a la vista. Cuando te pagan, queda saldado. Se acabó el «che, ¿este ya me pagó?».",
-    link: { label: "Probar 14 días gratis", href: AUTH_URL },
+    link: { label: "Probar 14 días gratis", href: TRIAL_URL },
     visual: <CuentaFragment />,
   },
   {

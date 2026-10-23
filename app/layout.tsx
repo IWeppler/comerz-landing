@@ -13,8 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 const SITE = "https://comerz.app";
-const TITLE =
-  "Comerz — Sistema de gestión y punto de venta para comercios";
+const TITLE = "Comerz — Sistema de gestión y punto de venta para comercios";
 const DESCRIPTION =
   "Software de gestión comercial para comercios, pymes y emprendedores: punto de venta, control de stock, caja y arqueo, cuenta corriente de clientes y catálogo online por WhatsApp. Probalo 14 días gratis, sin tarjeta.";
 
@@ -42,7 +41,7 @@ export const metadata: Metadata = {
     "software para tiendas de ropa",
     "sistema de gestión Argentina",
   ],
-  authors: [{ name: "Ignacio Weppler", url: "https://www.ignacioweppler.com" }],
+  authors: [{ name: "Ignacio Weppler", url: "https://www.ignacioweppler.dev" }],
   creator: "Ignacio Weppler",
   alternates: { canonical: "/" },
   category: "business",
@@ -84,7 +83,7 @@ const SCHEMA = {
       founder: {
         "@type": "Person",
         name: "Ignacio Weppler",
-        url: "https://www.ignacioweppler.com",
+        url: "https://www.ignacioweppler.dev",
       },
     },
     {
@@ -113,7 +112,8 @@ const SCHEMA = {
         "Catálogo online para compartir por WhatsApp",
         "Reportes de ganancia, margen y rotación",
         "Importación de productos y clientes desde Excel",
-        "Multi-sucursal y usuarios con permisos",
+        "Facturación electrónica ARCA",
+        "Usuarios con roles y permisos",
       ],
       offers: [
         { name: "Emprendedor", price: "30000" },

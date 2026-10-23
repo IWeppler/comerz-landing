@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { AUTH_URL, WHATSAPP_URL } from "@/lib/links";
+import { AUTH_URL, TRIAL_URL, WHATSAPP_URL } from "@/lib/links";
 import { ThemeToggle } from "./theme-toggle";
 
 type FooterLink = { label: string; href: string; external?: boolean };
@@ -19,7 +19,7 @@ const COLUMNS: FooterLink[][] = [
     { label: "Escribinos por WhatsApp", href: WHATSAPP_URL, external: true },
   ],
   [
-    { label: "Probar 14 días gratis", href: AUTH_URL },
+    { label: "Probar 14 días gratis", href: TRIAL_URL },
     { label: "Ingresar", href: AUTH_URL },
   ],
 ];
@@ -39,7 +39,7 @@ export function SiteFooter() {
         </h2>
         <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
           <a
-            href={AUTH_URL}
+            href={TRIAL_URL}
             className="inline-flex items-center rounded-full bg-[#e8401a] px-8 py-4.5 text-base font-semibold text-white no-underline transition-opacity hover:opacity-80 active:scale-[0.96]"
           >
             Probar 14 días gratis
@@ -83,7 +83,7 @@ export function SiteFooter() {
           <span>
             Hecho en Argentina · Powered by{" "}
             <a
-              href="https://www.ignacioweppler.com"
+              href="https://www.ignacioweppler.dev"
               target="_blank"
               rel="noopener"
               className="text-white/75 transition-colors hover:text-white"

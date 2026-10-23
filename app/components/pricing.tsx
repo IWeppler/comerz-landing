@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ArrowRight, Minus } from "lucide-react";
 import { cn } from "@/lib/cn";
-import { AUTH_URL } from "@/lib/links";
+import { TRIAL_URL } from "@/lib/links";
 import { WRAP } from "./bits";
 import { Amount } from "./metrics";
 import { Reveal, RiseLines } from "./rise";
@@ -27,13 +27,12 @@ const PLANS: Plan[] = [
     semester: 24000,
     blurb: "Para el comercio que atiende una persona.",
     features: [
-      "Punto de venta, caja y ventas",
-      "Productos y control de stock",
-      "Catálogo online por WhatsApp",
-      "Cuenta corriente, hasta 100 clientes activos",
-      "Historial de ventas y tickets digitales",
+      "1 usuario",
+      "Hasta 1.000 productos",
+      "Hasta 500 ventas por mes",
+      "Cuenta corriente para hasta 50 clientes",
     ],
-    excluded: "Sin reportes avanzados ni multi-caja",
+    excluded: "Sin reportes, roles ni varios puestos",
   },
   {
     name: "Gestión",
@@ -42,26 +41,40 @@ const PLANS: Plan[] = [
     blurb: "Para el comercio con empleados y más de un turno.",
     featured: true,
     features: [
-      "Todo lo de Emprendedor",
-      "Varios usuarios con permisos",
-      "Multi-caja por turno",
-      "Reportes de rotación y rentabilidad",
-      "Cuenta corriente sin tope de clientes",
+      "5 usuarios, con roles y permisos por rol",
+      "Hasta 5.000 productos",
+      "Hasta 5.000 ventas por mes",
+      "Cuenta corriente para hasta 250 clientes",
+      "Reportes y exportación al contador",
+      "Un turno de caja por vendedor",
+      "Varios puestos con una sola caja: el vendedor arma el pedido y otra persona cobra",
     ],
   },
   {
     name: "Empresa",
     monthly: 70000,
     semester: 56000,
-    blurb: "Para el que ya tiene más de un local.",
+    blurb: "Para el comercio que ya no entra en ningún tope.",
     features: [
       "Todo lo de Gestión",
-      "Varias sucursales en un solo panel",
-      "Stock y transferencias entre locales",
-      "Usuarios ilimitados con roles",
-      "Soporte prioritario y ayuda para migrar",
+      "Usuarios sin tope",
+      "Productos sin tope",
+      "Ventas sin tope",
+      "Cuenta corriente sin tope de clientes",
     ],
   },
+];
+
+/** Lo que trae cualquier plan; va una sola vez, debajo de los tres. */
+const INCLUDED = [
+  "Punto de venta y caja con turnos",
+  "Ventas con historial completo",
+  "Control de stock",
+  "Tienda online con tu stock y tus precios",
+  "Clientes y cuenta corriente",
+  "Tickets digitales",
+  "Facturación electrónica ARCA",
+  "Panel con Comerz Intelligence",
 ];
 
 /**
@@ -161,7 +174,7 @@ export function Pricing() {
             {/* Pushes the button to the shared bottom edge of the row. */}
             <div className="mt-9 flex flex-1 items-end">
               <a
-                href={AUTH_URL}
+                href={TRIAL_URL}
                 className={cn(
                   "inline-flex w-full items-center justify-center rounded-full px-7 py-4 text-[15px] font-semibold no-underline transition-opacity hover:opacity-80 active:scale-[0.96]",
                   plan.featured ? "bg-action text-white" : "bg-fg text-canvas",
@@ -173,6 +186,22 @@ export function Pricing() {
           </Reveal>
         ))}
       </div>
+
+      <Reveal className="mx-auto mt-[clamp(64px,10vh,120px)] max-w-[1180px] border-t border-line pt-10">
+        <h3 className="m-0 text-[15px] font-semibold text-fg-muted">En los tres planes</h3>
+        <ul className="m-0 mt-6 grid list-none grid-cols-[minmax(0,1fr)] gap-x-12 gap-y-3 p-0 sm:grid-cols-2 md:grid-cols-4">
+          {INCLUDED.map((item) => (
+            <li key={item} className="flex items-start gap-3 text-[15px] leading-[1.5]">
+              <ArrowRight
+                aria-hidden
+                strokeWidth={2}
+                className="mt-0.75 size-4 shrink-0 text-(--color-accent)"
+              />
+              {item}
+            </li>
+          ))}
+        </ul>
+      </Reveal>
     </section>
   );
 }

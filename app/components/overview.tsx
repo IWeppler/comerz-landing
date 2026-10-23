@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { AUTH_URL } from "@/lib/links";
+import { TRIAL_URL } from "@/lib/links";
 import { MoreLink, WRAP } from "./bits";
 import { Reveal, RiseLines } from "./rise";
 
@@ -20,7 +20,7 @@ export function Overview() {
             Ventas, caja, stock y fiados en un solo lugar. La ganancia real del día,
             de la semana y del mes, y un aviso cuando algo se frena.
           </p>
-          <MoreLink href={AUTH_URL}>Probar 14 días gratis</MoreLink>
+          <MoreLink href={TRIAL_URL}>Probar 14 días gratis</MoreLink>
         </Reveal>
       </div>
 

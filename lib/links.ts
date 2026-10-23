@@ -1,5 +1,8 @@
-/** Destino de los CTA que arrancan la prueba y del ingreso a la app. */
-export const AUTH_URL = "https://app.comerz.app/auth";
+/** Destino de los CTA que arrancan la prueba gratis. */
+export const TRIAL_URL = "https://app.comerz.app/empezar";
+
+/** Ingreso a la app para quienes ya tienen cuenta. */
+export const AUTH_URL = "https://app.comerz.app/ingresar";
 
 /** WhatsApp de soporte: dudas sobre el sistema, desde las preguntas y el pie. */
 export const WHATSAPP_URL = "https://wa.me/5491154702118";

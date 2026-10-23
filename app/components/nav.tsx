@@ -11,12 +11,12 @@ import {
 } from "motion/react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
-import { AUTH_URL } from "@/lib/links";
+import { AUTH_URL, TRIAL_URL } from "@/lib/links";
 import { HoverLink, SlidingPill, SPRING_SOFT } from "./hover";
 
 const LINKS = [
   { href: "/#modulos", label: "Qué hace" },
-  { href: "/#insights", label: "Insights" },
+  { href: "/#intelligence", label: "Intelligence" },
   { href: "/#precios", label: "Precio" },
   { href: "/#faq", label: "Preguntas" },
 ];
@@ -142,7 +142,7 @@ export function Nav() {
               Ingresar
             </a>
             <HoverLink
-              href={AUTH_URL}
+              href={TRIAL_URL}
               lift={-1}
               className="hidden h-10 items-center rounded-[10px] bg-action px-4.5 text-sm font-medium whitespace-nowrap text-action-fg no-underline transition-colors duration-250 ease-brand hover:bg-action-hover lg:inline-flex"
             >
@@ -208,7 +208,7 @@ export function Nav() {
 
               <div className="mt-auto flex flex-col gap-2.5 pt-10">
                 <a
-                  href={AUTH_URL}
+                  href={TRIAL_URL}
                   className="inline-flex h-13 items-center justify-center rounded-[10px] bg-action text-base font-medium text-action-fg no-underline"
                 >
                   Probar 14 días gratis

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion, useMotionValueEvent, useReducedMotion, useScroll } from "motion/react";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
-import { AUTH_URL } from "@/lib/links";
+import { AUTH_URL, TRIAL_URL } from "@/lib/links";
 
 const LINKS = [
   { href: "/#funciones", label: "Funciones" },
@@ -109,7 +109,7 @@ export function SiteNav() {
 
         <div className="ml-auto flex items-center gap-2.5 lg:ml-0">
           <a
-            href={AUTH_URL}
+            href={TRIAL_URL}
             className={cn(
               "inline-flex items-center rounded-full bg-[#e8401a] font-semibold whitespace-nowrap text-white no-underline transition-[opacity,padding,font-size] duration-300 hover:opacity-80 active:scale-[0.96]",
               compact ? "px-3.5 py-1.5 text-[13px]" : "px-5 py-2.75 text-sm",
@@ -172,7 +172,7 @@ export function SiteNav() {
             </nav>
 
             <a
-              href={AUTH_URL}
+              href={TRIAL_URL}
               className="mt-auto inline-flex h-13 items-center justify-center rounded-full bg-[#e8401a] text-base font-semibold text-white no-underline"
             >
               Probar 14 días gratis
