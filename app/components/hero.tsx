@@ -79,7 +79,7 @@ export function Hero() {
         className={`${WRAP} relative pt-[clamp(60px,12vh,140px)] pb-[clamp(110px,22vh,240px)]`}
       >
         <p className="m-0 max-w-[1080px] font-display text-[clamp(28px,4vw,58px)] leading-[1.1] font-semibold tracking-[-0.035em] text-balance">
-          Más o menos sabés cuánto vendiste este mes. El &quot;más o meno&quot;
+          Más o menos sabés cuánto vendiste este mes. El &quot;más o menos&quot;
           es el problema. Comerz anota cada venta, cada peso de la caja y cada
           fiado, para que sepas exactamente cómo está tu negocio.
         </p>
