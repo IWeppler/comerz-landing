@@ -7,11 +7,26 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
 import { AUTH_URL, TRIAL_URL } from "@/lib/links";
 
-const LINKS = [
+const LINKS: { href: string; label: string; tag?: string }[] = [
   { href: "/#funciones", label: "Funciones" },
   { href: "/#precios", label: "Precios" },
+  { href: "/#socios", label: "Socios", tag: "Ganá" },
   { href: "/#faq", label: "Preguntas" },
 ];
+
+/** Etiqueta naranja junto a un link, para el que tiene que destacarse. */
+function NavTag({ children, big }: { children: string; big?: boolean }) {
+  return (
+    <span
+      className={cn(
+        "rounded-full bg-[#e8401a] font-sans font-semibold tracking-normal text-white normal-case",
+        big ? "ml-3 px-2.5 py-1 align-middle text-[13px]" : "ml-1.5 px-1.5 py-0.5 text-[10.5px]",
+      )}
+    >
+      {children}
+    </span>
+  );
+}
 
 /**
  * La barra de la landing siempre es oscura y de texto blanco: arriba de todo
@@ -89,6 +104,7 @@ export function SiteNav() {
               )}
             >
               {link.label}
+              {link.tag && <NavTag>{link.tag}</NavTag>}
               {/* Subrayado naranja que se dibuja de izquierda a derecha. */}
               <span
                 aria-hidden
@@ -156,7 +172,7 @@ export function SiteNav() {
             className="fixed inset-x-0 top-[52px] bottom-0 flex flex-col overflow-y-auto bg-[#111] px-5 pt-6 pb-8 lg:hidden"
           >
             <nav className="flex flex-col" aria-label="Menú">
-              {[...LINKS, { href: AUTH_URL, label: "Ingresar" }].map((link, i) => (
+              {[...LINKS, { href: AUTH_URL, label: "Ingresar", tag: undefined }].map((link, i) => (
                 <motion.a
                   key={link.href + link.label}
                   href={link.href}
@@ -167,6 +183,7 @@ export function SiteNav() {
                   className="poster border-b border-white/10 py-4 text-[44px] text-white no-underline"
                 >
                   {link.label}
+                  {link.tag && <NavTag big>{link.tag}</NavTag>}
                 </motion.a>
               ))}
             </nav>

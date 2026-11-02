@@ -23,7 +23,7 @@ function InsightsPlaceholder() {
   return (
     <div
       aria-hidden
-      className="min-h-[275px] rounded-2xl border border-line bg-surface md:min-h-[295px]"
+      className="h-full min-h-[275px] rounded-2xl border border-line bg-surface md:min-h-[295px]"
     />
   );
 }

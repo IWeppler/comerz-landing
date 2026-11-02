@@ -74,7 +74,7 @@ const INCLUDED = [
   "Clientes y cuenta corriente",
   "Tickets digitales",
   "Facturación electrónica ARCA",
-  "Panel con Comerz Intelligence",
+  "Comerz Intelligence (en Beta, se habilita de a poco)",
 ];
 
 /**

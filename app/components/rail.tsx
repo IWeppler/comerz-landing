@@ -11,6 +11,7 @@ import { Reveal, RiseLines } from "./rise";
 type Card = {
   id: string;
   eyebrow: string;
+  tag?: string;
   title: [string, string];
   body: string;
   link: { label: string; href: string; external?: boolean };
@@ -37,9 +38,10 @@ const CARDS: Card[] = [
   {
     id: "Intelligence",
     eyebrow: "Comerz Intelligence",
-    title: ["Te dice qué está", "frenado."],
-    body: "Mira tus ventas, tu stock y tus fiados, y te avisa en castellano: plata parada en mercadería, deuda vencida, productos que no rotan. Y qué conviene hacer.",
-    link: { label: "Probarlo con tus datos", href: TRIAL_URL },
+    tag: "Beta",
+    title: ["Preguntale a", "tu negocio."],
+    body: "Stock, deudas, ventas y caja: lo preguntás por texto o por voz y te contesta con tus datos reales. Solo lee, así que no cambia nada por su cuenta.",
+    link: { label: "Consultanos por la Beta", href: WHATSAPP_URL, external: true },
     visual: <InsightsFragment />,
   },
   {
@@ -128,7 +130,7 @@ export function Rail() {
               className="grid w-[min(1150px,calc(100vw-40px))] shrink-0 snap-start grid-cols-[minmax(0,1fr)] items-center gap-10 rounded-[40px] border border-line bg-surface p-[clamp(28px,5vw,72px)] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-14"
             >
               <div className="flex flex-col">
-                <Eyebrow>{card.eyebrow}</Eyebrow>
+                <Eyebrow tag={card.tag}>{card.eyebrow}</Eyebrow>
                 <h3 className="m-0 font-display text-[clamp(34px,4vw,56px)] leading-[1.04] font-medium tracking-[-0.035em]">
                   {card.title[0]}
                   <br />

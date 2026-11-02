@@ -8,6 +8,7 @@ import { Cash, Import, Sell } from "./components/features";
 import { Rail } from "./components/rail";
 import { Pocket } from "./components/pocket";
 import { Pricing } from "./components/pricing";
+import { Referral } from "./components/referral";
 import { Faq } from "./components/faq";
 import { Safe } from "./components/safe";
 import { SiteFooter } from "./components/site-footer";
@@ -58,6 +59,7 @@ export default function Home() {
         <Rail />
         <Pocket />
         <Pricing />
+        <Referral />
         <Faq />
         <Safe />
       </main>

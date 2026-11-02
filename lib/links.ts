@@ -4,6 +4,9 @@ export const TRIAL_URL = "https://app.comerz.app/empezar";
 /** Ingreso a la app para quienes ya tienen cuenta. */
 export const AUTH_URL = "https://app.comerz.app/ingresar";
 
+/** Programa de socios: quienes recomiendan Comerz a otros comercios. */
+export const SOCIOS_URL = "https://socios.comerz.app";
+
 /** WhatsApp de soporte: dudas sobre el sistema, desde las preguntas y el pie. */
 export const WHATSAPP_URL = "https://wa.me/5491154702118";
 
